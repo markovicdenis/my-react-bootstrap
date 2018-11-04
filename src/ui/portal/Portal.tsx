@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import ReactDOM from 'react-dom'
+// import ReactDOM from 'react-dom'
 import { isBrowser } from '../_utils'
 
 interface Props {
@@ -35,9 +35,9 @@ export class Portal extends Component<Props>{
 			}
 		}
 
-		return ReactDOM.createPortal(
-			this.props.children,
-			this.props.node || this.defaultNode
-		)
+		// return ReactDOM.createPortal(
+		// 	this.props.children,
+		// 	this.props.node || this.defaultNode
+		// )
 	}
 }

@@ -1,5 +1,7 @@
 export const _$ = (sel: any) => {
+	//@ts-ignore
 	if (typeof $ === 'undefined') return {}
+	//@ts-ignore
 	return $(sel)
 }
 
