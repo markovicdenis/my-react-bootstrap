@@ -2,9 +2,11 @@
   "name": "my-react-bootstrap",
   "version": "1.0.0",
   "description": "",
-  "main": "index.ts",
+  "types": "dist/index.d.ts",
+  "main": "dist/index.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "rm -rf node_modules dist && npm i && tsc"
   },
   "author": "",
   "license": "ISC",
@@ -14,6 +16,10 @@
     "react-dom": "^16.6.0",
     "react-select": "^2.1.1"
   },
+  "peerDependencies": {
+    "react": "*",
+    "react-dom": "*"
+  },
   "devDependencies": {
     "@types/jest": "^23.3.9",
     "@types/jquery": "^3.3.22",
@@ -21,5 +27,6 @@
     "@types/react": "^16.4.18",
     "@types/react-dom": "^16.0.9",
     "@types/react-select": "^2.0.6"
-  }
+  },
+  "sideEffects": false
 }

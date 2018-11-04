@@ -2,20 +2,21 @@ import React, { Component } from 'react'
 import get from 'lodash/get'
 import { generateClassNames } from '../ui/_utils'
 
+export interface FProps {
+	name?: string
+	className?: string
+	addClass?: string
+	label?: string
+	feedback?: { valid?: any, invalid?: any }
+	isValid?: boolean
+	validate?: boolean
+	showHelp?: boolean
+	help?: any
+	errors?: any
+	maxErrors?: number
+}
+
 export function FormGroupFactory<P, S>(ReactElement: React.ComponentClass | any) {
-	interface FProps {
-		name?: string
-		className?: string
-		addClass?: string
-		label?: string
-		feedback?: { valid?: any, invalid?: any }
-		isValid?: boolean
-		validate?: boolean
-		showHelp?: boolean
-		help?: any
-		errors?: any
-		maxErrors?: number
-	}
 	return class FormGroup extends Component<P & FProps, S>{
 		static defaultProps = {
 			className: 'form-group',
@@ -39,7 +40,7 @@ export function FormGroupFactory<P, S>(ReactElement: React.ComponentClass | any)
 		render() {
 			const ownProps: any = {}
 			let name = this.props.name
-			let classNames : any[] = [this.props.className]
+			let classNames: any[] = [this.props.className]
 			let { valid: validFeedback, invalid: invalidFeedback }: any = this.props.feedback || {}
 
 			if (this.props.addClass) classNames.push(this.props.addClass)

@@ -35,6 +35,8 @@ export class Portal extends Component<Props>{
 			}
 		}
 
+		return <div></div>
+
 		// return ReactDOM.createPortal(
 		// 	this.props.children,
 		// 	this.props.node || this.defaultNode
