@@ -6,7 +6,7 @@ interface Props {
 	fluid?: boolean
 }
 
-const Container = (props: Props) => {
+export const Container = (props: Props) => {
 	let classNames = [props.className]
 	if(props.fluid) classNames.unshift('container-fluid')
 	else classNames.unshift('container')
@@ -17,4 +17,3 @@ const Container = (props: Props) => {
 	)
 }
 
-export default Container

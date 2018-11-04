@@ -1,6 +1,8 @@
 import React, { PureComponent } from 'react'
+import { generateClassNames } from '../_utils'
 
 interface Props {
+	tag?: 'div'|'article'
 	children?: any
 	onClick?: any
 	className?: string
@@ -18,6 +20,10 @@ const sizes: string[] = ['sm', 'md', 'lg']
 
 export class Col extends PureComponent<Props>{
 	protected classNames: string[] = []
+
+	static defaultProps = {
+		tag: 'div'
+	}
 
 	getClass(){
 		if (this.props.w) {
@@ -43,26 +49,20 @@ export class Col extends PureComponent<Props>{
 	}
 
 	render() {
+		const Tag = `${this.props.tag}`
 		this.getClass()
 		return (
-			<div className={this.props.className || this.classNames.filter(n => n).join(' ')} onClick={this.props.onClick}>
+			<Tag className={this.props.className || generateClassNames(this.classNames)} onClick={this.props.onClick}>
 				{this.props.children}
-			</div>
+			</Tag>
 		)
 	}
 }
 
 
 export class ArticleCol extends Col {
-	render() {
-		this.getClass()
-		return (
-			<article className={this.props.className || this.classNames.filter(n => n).join(' ')} onClick={this.props.onClick}>
-				{this.props.children}
-			</article>
-		)
+	static defaultProps = {
+		tag: 'article'
 	}
 }
 
-
-export default Col

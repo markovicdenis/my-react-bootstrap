@@ -37,8 +37,8 @@ export class Textarea extends Component<Props, State> {
 		this.setState(state)
 	}
 
-	onChange = (e: SyntheticEvent<HTMLTextAreaElement>) => {
-		let target = e.target
+	onChange = (e: SyntheticEvent) => {
+		let target = e.target as HTMLTextAreaElement
 		this.setState({ value: target.value })
 		this.props.onChange && this.props.onChange(this.props.name, target.value)
 	}
@@ -59,5 +59,3 @@ export class Textarea extends Component<Props, State> {
 }
 
 export const FGTextarea = FormGroupFactory<Props, State>(Textarea)
-
-export default FGTextarea

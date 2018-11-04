@@ -70,5 +70,3 @@ export class Input extends Component<Props, State> {
 }
 
 export const FGInput = FormGroupFactory<Props, State>(Input)
-
-export default FGInput

@@ -13,7 +13,7 @@ interface State {
 	style?: any
 }
 
-class Collapse extends Component<Props, State>{
+export class Collapse extends Component<Props, State>{
 	private element = createRef<HTMLDivElement>()
 
 	constructor(props:Props){
@@ -56,4 +56,3 @@ class Collapse extends Component<Props, State>{
 	}
 }
 
-export default Collapse 

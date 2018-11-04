@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import CloseButton from '../buttons/CloseButton'
+import { CloseButton } from '../buttons/CloseButton'
 import { delay } from '../_utils'
 import { generateClassNames } from '../_utils/generateClassNames'
 import { colorClasses, getColorClass } from '../_utils/colorClasses'

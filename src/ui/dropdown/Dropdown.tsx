@@ -1,7 +1,6 @@
 import React, { Component, createRef } from 'react'
 import { _$, isBrowser } from '../_utils'
-import { Portal } from '../portal/Portal'
-import Button from '../buttons/Button'
+import { Button } from '../buttons/Button'
 import { DropdownToggle } from './DropdownToggle'
 
 type DropdownItem = { label: any, value?: any, header?: boolean | 'h5' | 'h6', divider?: boolean, disabled?: boolean, active?: boolean }

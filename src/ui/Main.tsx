@@ -7,7 +7,7 @@ interface Props {
 	nocontainer?: boolean
 }
 
-const Main = (props:Props) => {
+export const Main = (props:Props) => {
 	let className = ['main', props.className].join(' ')
 	let containerClassName = props.containerClassName || 'container'
 	let content = <div className={containerClassName}>{props.children}</div>
@@ -19,4 +19,3 @@ const Main = (props:Props) => {
 	)
 }
 
-export default Main 

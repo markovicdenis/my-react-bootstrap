@@ -1,6 +1,7 @@
 import React from 'react'
+import { generateClassNames } from '../_utils'
 
-interface Props{
+interface Props {
 	onClick?: () => void
 	children?: any
 	className?: string
@@ -8,15 +9,13 @@ interface Props{
 	form?: boolean
 }
 
-const Row = (props: Props) => {
+export const Row = (props: Props) => {
 	let classNames = ['row']
 	if(props.form) classNames = ['form-row']
 	if(props.addClass) classNames.push(props.addClass)
 	return (
-		<div className={props.className || classNames.filter(n => n).join(' ')} onClick={props.onClick}>
+		<div className={props.className || generateClassNames(classNames)} onClick={props.onClick}>
 			{props.children}
 		</div>
 	)
 }
-
-export default Row
