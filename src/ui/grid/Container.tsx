@@ -1,19 +1,4 @@
-import React from "react"
+import { basicElement } from "../../hoc/basicElement"
 
-interface Props {
-	className?: string,
-	children?: any,
-	fluid?: boolean
-}
-
-export const Container = (props: Props) => {
-	let classNames = [props.className]
-	if(props.fluid) classNames.unshift('container-fluid')
-	else classNames.unshift('container')
-	return (
-		<div className={classNames.join(' ')}>
-			{props.children}
-		</div>
-	)
-}
-
+export const Container = basicElement({ defaultClass: 'container' })
+export const ContainerFluid = basicElement({ defaultClass: 'container-fluid' })

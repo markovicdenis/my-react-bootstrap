@@ -9,7 +9,7 @@ const mapping :any= {
 	info: 'info',
 	light: 'light',
 	dark: 'dark',
-	lik: 'link',
+	link: 'link',
 	none: ''
 }
 

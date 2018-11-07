@@ -3,10 +3,11 @@
   "version": "1.0.0",
   "description": "",
   "types": "dist/index.d.ts",
-  "main": "dist/index.ts",
+  "main": "dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "rm -rf node_modules dist && npm i && tsc"
+    "build": "rm -rf node_modules dist && npm i && tsc",
+    "start": "rm -rf dist && tsc --watch"
   },
   "author": "",
   "license": "ISC",

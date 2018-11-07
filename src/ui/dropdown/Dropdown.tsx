@@ -3,7 +3,7 @@ import { _$, isBrowser } from '../_utils'
 import { Button } from '../buttons/Button'
 import { DropdownToggle } from './DropdownToggle'
 
-type DropdownItem = { label: any, value?: any, header?: boolean | 'h5' | 'h6', divider?: boolean, disabled?: boolean, active?: boolean }
+type DropdownItem = { label: any, value?: any, header?: boolean | 'h5' | 'h6', divider?: boolean, disabled?: boolean, active?: boolean, href?: string }
 
 interface Props {
 	toggle?: (ref: any, toggle: any, item?: DropdownItem) => any
@@ -12,6 +12,7 @@ interface Props {
 	addClass?: string
 	show?: boolean
 	items?: DropdownItem[]
+	itemsTag?: 'a'|'button'
 	itemsAfter?: DropdownItem[]
 	itemClick?: (item: any) => void
 	children?: any
@@ -59,15 +60,21 @@ export class Dropdown extends Component<Props, State>{
 	renderItems = (items: DropdownItem[]) => {
 		if (!isBrowser) return []
 		return items.map((item: DropdownItem, index: number) => {
-			if (item.divider) return <div key={`divider${index}`} className="dropdown-divider"></div>
-			if (item.header) {
-				const Tag = typeof item.header === 'string' ? item.header : 'h6'
-				return <Tag key={`divider${item.label}`}>{item.label}</Tag>
+			let Tag = 'a'
+			let className = 'dropdown-item'
+			const {active, disabled, label, divider, header, ...rest} = item
+			if (divider) return <div key={`divider${index}`} className="dropdown-divider"></div>
+			if (header) {
+				Tag = typeof header === 'string' ? header : 'h6'
+				return <Tag key={`header${label}`}>{label}</Tag>
 			}
-			if (item.disabled) {
-				return <button key={`disabled${item.label}`} className="dropdown-item disabled" type="button">{item.label}</button>
-			}
-			return <button key={`${item.label}`} className={`dropdown-item${item.active ? ' active' : ''}`} type="button" onClick={() => this.itemClick(item)}>{item.label}</button>
+			if(disabled) className+= ' disabled'
+			if(active) className+= ' active'
+
+			if(Tag === 'a' && !item.href) rest.href = '#'
+			// if(Tag === 'button') rest.type='button'
+
+			return <Tag key={`${label}$`} className={className} onClick={() => this.itemClick(item)} {...rest}>{item.label}</Tag>
 		})
 	}
 

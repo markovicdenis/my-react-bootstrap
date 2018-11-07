@@ -20,7 +20,7 @@ interface Props {
 	addClass?: string
 	visible?: boolean
 	hasCloseButton?: boolean
-	type?: colorClasses
+	color?: colorClasses
 	status?: AlertStatus
 }
 
@@ -32,7 +32,6 @@ interface State {
 export class Alert extends Component<Props, State>{
 	static defaultProps = {
 		hasCloseButton: true,
-		className: 'alert',
 		onClick: () => { }
 	}
 
@@ -73,7 +72,7 @@ export class Alert extends Component<Props, State>{
 		let classNames: any[] = ['alert', this.props.addClass]
 
 		if (this.props.status) classNames.push(getColorClass(colorLookup[this.props.status], 'alert'))
-		else if (this.props.type) classNames.push(getColorClass(this.props.type || 'secondary', 'alert'))
+		else if (this.props.color) classNames.push(getColorClass(this.props.color || 'secondary', 'alert'))
 
 		if (this.state.fade) classNames.push('fade')
 

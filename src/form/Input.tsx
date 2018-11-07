@@ -1,7 +1,7 @@
 import { FormGroupFactory } from './FormGroupFactory'
 import React, { Component, createRef, SyntheticEvent } from 'react'
 
-type Props = {
+export type Props = {
 	name: string,
 	// className?: string,
 	// invalidFeedback?: any,
