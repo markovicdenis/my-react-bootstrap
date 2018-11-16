@@ -19,11 +19,11 @@ export interface IBasicElementAdditional {
 	[key: string]: any
 }
 
-export function basicElement <P={}> (additionalProps: IBasicElementAdditional, useColor?:{prefix:string, suffix:string}) {
+export function basicElement<P={}>(additionalProps: IBasicElementAdditional, useColor?: { prefix: string, suffix: string }) {
 	// interface NewProps extends IBasicElementProps
 	return (props: IBasicElementProps & P) => {
-		const {defaultClass, ...restAdditional} = additionalProps
-		const { tag:Tag='div', addClass, color, className, children, onClick, loading, ...rest } = props as IBasicElementProps
+		const { defaultClass, ...restAdditional } = additionalProps
+		const { tag: Tag = 'div', addClass, color, className, children, onClick, loading, ...rest } = props as IBasicElementProps
 		const classNames: any[] = [defaultClass, addClass]
 
 		if (useColor && color) classNames.push(getColorClass(color, useColor.prefix, useColor.suffix))
@@ -33,7 +33,7 @@ export function basicElement <P={}> (additionalProps: IBasicElementAdditional, u
 				{children}
 			</Tag>
 		)
-	} 
+	}
 }
 
 // export const Button = (props: BuProps) => {
@@ -42,7 +42,7 @@ export function basicElement <P={}> (additionalProps: IBasicElementAdditional, u
 // 	if classNames.push(getColorClass(type || 'secondary', 'btn'))
 
 // 	if(block) classNames.push('btn-block')
-	
+
 // 	return (
 // 		<button className={className || generateClassNames(classNames)} onClick={onClick} {...rest} ref={setRef}>
 // 			{children}

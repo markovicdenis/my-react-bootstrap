@@ -1,5 +1,5 @@
 import React, { Component, createRef } from 'react'
-import { _$, isBrowser } from '../_utils'
+import { _$, isBrowser, generateClassNames } from '../_utils'
 import { Button } from '../buttons/Button'
 import { DropdownToggle } from './DropdownToggle'
 
@@ -17,6 +17,7 @@ interface Props {
 	itemClick?: (item: any) => void
 	children?: any
 	split?: boolean
+	alignRight?: boolean
 }
 
 interface State {
@@ -80,10 +81,11 @@ export class Dropdown extends Component<Props, State>{
 
 	render() {
 		let classNames = [(this.props.split ? 'btn-group' : 'dropdown'), this.props.addClass]
+		let dropdownClassNames = ['dropdown-menu', (this.props.alignRight ? 'dropdown-menu-right' : '')]
 		return (
-			<div className={this.props.className || classNames.join(' ')}>
+			<div className={this.props.className || generateClassNames(classNames)}>
 				{this.props.toggle && this.props.toggle(this.dropdownRef, this.toggle, this.state.item)}
-				<div className="dropdown-menu">
+				<div className={generateClassNames(dropdownClassNames)}>
 					{this.props.items && this.renderItems(this.props.items)}
 					{this.props.children}
 					{this.props.itemsAfter && this.renderItems(this.props.itemsAfter)}

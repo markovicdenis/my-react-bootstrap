@@ -3,6 +3,7 @@ import { colorClasses, getColorClass } from '../_utils/colorClasses'
 import { generateClassNames } from '../_utils/generateClassNames'
 
 export interface ButtonProps {
+	tag?: 'button' | 'a' | string
 	children?: any
 	block?: boolean
 	loading?: boolean
@@ -16,7 +17,7 @@ export interface ButtonProps {
 }
 
 export const Button = (props: ButtonProps) => {
-	const { addClass, block, circle, outline, color, className, children, onClick, loading, setRef, ...rest } = props
+	const { tag: Tag = 'button', addClass, block, circle, outline, color, className, children, loading, setRef, ...rest } = props
 	let classNames: any[] = ['btn', addClass]
 	if (circle) classNames.push('btn-circle')
 	if (outline) classNames.push(getColorClass(color || 'secondary', 'btn-outline'))
@@ -25,9 +26,9 @@ export const Button = (props: ButtonProps) => {
 	if(block) classNames.push('btn-block')
 	
 	return (
-		<button className={className || generateClassNames(classNames)} onClick={onClick} {...rest} ref={setRef}>
+		<Tag className={className || generateClassNames(classNames)} {...rest} ref={setRef}>
 			{children}
 			{loading && <div className={`loader loader--small ml-2 ${getColorClass(color || 'secondary', 'loader-')}`}></div>}
-		</button>
+		</Tag>
 	)
 }
