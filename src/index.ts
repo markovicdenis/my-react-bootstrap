@@ -1,3 +1,5 @@
+export * from './hoc/basicElement'
+
 export * from './form/FormGroupFactory'
 export * from './form/Input'
 export * from './form/Select'
@@ -12,6 +14,8 @@ export * from './ui/buttons/CloseButton'
 
 export * from './ui/dropdown/Dropdown'
 export * from './ui/dropdown/DropdownToggle'
+
+export * from './ui/nav/index'
 
 export * from './ui/modal'
 

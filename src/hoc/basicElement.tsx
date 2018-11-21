@@ -16,14 +16,15 @@ export interface IBasicElementProps {
 
 export interface IBasicElementAdditional {
 	defaultClass: string
+	defaultTag?: string
 	[key: string]: any
 }
 
 export function basicElement<P={}>(additionalProps: IBasicElementAdditional, useColor?: { prefix: string, suffix: string }) {
 	// interface NewProps extends IBasicElementProps
 	return (props: IBasicElementProps & P) => {
-		const { defaultClass, ...restAdditional } = additionalProps
-		const { tag: Tag = 'div', addClass, color, className, children, onClick, loading, ...rest } = props as IBasicElementProps
+		const { defaultClass, defaultTag='div', ...restAdditional } = additionalProps
+		const { tag: Tag = defaultTag, addClass, color, className, children, onClick, loading, ...rest } = props as IBasicElementProps
 		const classNames: any[] = [defaultClass, addClass]
 
 		if (useColor && color) classNames.push(getColorClass(color, useColor.prefix, useColor.suffix))

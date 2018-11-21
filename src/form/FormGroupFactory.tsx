@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import get from 'lodash/get'
 import { generateClassNames } from '../ui/_utils'
 
-export interface FProps {
+export type FProps<E extends {}> = E & {
+	id?: string
 	name?: string
 	className?: string
 	addClass?: string
@@ -17,7 +18,7 @@ export interface FProps {
 }
 
 export function FormGroupFactory<P, S>(ReactElement: React.ComponentClass | any) {
-	return class FormGroup extends Component<P & FProps, S>{
+	return class FormGroup extends Component<FProps<P>, S>{
 		static defaultProps = {
 			className: 'form-group',
 			maxErrors: 2
@@ -38,12 +39,12 @@ export function FormGroupFactory<P, S>(ReactElement: React.ComponentClass | any)
 		}
 
 		render() {
-			const ownProps: any = {}
+			const { className, addClass, label, help, showHelp, ...rest } = this.props as any
 			let name = this.props.name
-			let classNames: any[] = [this.props.className]
+			let classNames: any[] = [className]
 			let { valid: validFeedback, invalid: invalidFeedback }: any = this.props.feedback || {}
 
-			if (this.props.addClass) classNames.push(this.props.addClass)
+			if (addClass) classNames.push(addClass)
 
 			if (!invalidFeedback && this.props.errors) invalidFeedback = this.extractInvalidFeedback()
 
@@ -52,16 +53,16 @@ export function FormGroupFactory<P, S>(ReactElement: React.ComponentClass | any)
 					if (this.props.isValid) classNames.push('is-valid')
 					else classNames.push('is-invalid')
 				} else {
-					if (this.props.errors && invalidFeedback) ownProps.isValid = false
+					if (this.props.errors && invalidFeedback) rest.isValid = false
 				}
 			}
 
 			return (
 				<div className={generateClassNames(classNames)}>
-					{this.props.label && <label htmlFor={`id${name}`}>{this.props.label}</label>}
-					<ReactElement {...ownProps}{...this.props}></ReactElement>
-					{this.props.help && (!invalidFeedback || this.props.showHelp) &&
-						<small id={`help${name}`} className="form-text text-muted">{this.props.help}</small>
+					{label && <label htmlFor={this.props.id}>{label}</label>}
+					<ReactElement {...rest}></ReactElement>
+					{help && (!invalidFeedback || showHelp) &&
+						<small className="form-text text-muted">{help}</small>
 					}
 					{validFeedback &&
 						<div className="valid-feedback">

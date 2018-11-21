@@ -13,30 +13,20 @@ interface State {
 	style?: any
 }
 
-export class Collapse extends Component<Props, State>{
+export class Collapse extends Component<Props>{
 	private element = createRef<HTMLDivElement>()
-
-	constructor(props:Props){
-		super(props)
-		this.state = {
-			show: props.show,
-			// className: props.show ? 'collapse show' : 'collapse'
-		}
-	}
 
 	componentDidMount(){
 		// const elem = _$(this.element.current)
 	}
 
 	async componentDidUpdate(prevProps:Props){
-		if(this.props.show !== prevProps.show && this.props.show !== this.state.show){
+		if(this.props.show !== prevProps.show){
 			const elem = _$(this.element.current)
 			if(elem && this.props.show){
 				elem.collapse('show')
-				this.setState({show: true})
 			}else if(elem){
 				elem.collapse('hide')
-				this.setState({show: false})
 			}
 		}
 	}
@@ -44,12 +34,12 @@ export class Collapse extends Component<Props, State>{
 	// let content = <div className={containerClassName}>{props.children}</div>
 	// if (props.nocontainer) content = props.children
 	render() {
-		let classNames = [this.props.className]
+		let classNames = ['collapse', this.props.className]
 
-		if(this.state.className) classNames.push(this.state.className)
+		if(this.props.show) classNames.push('show')
 
 		return (
-			<div ref={this.element} className={classNames.join(' ')} style={this.state.style}>
+			<div ref={this.element} className={classNames.join(' ')}>
 				{this.props.children}
 			</div>
 		)
