@@ -2,7 +2,7 @@ import React from 'react'
 import { FormGroupFactory } from './FormGroupFactory'
 import { Props as SelectProps } from 'react-select/lib/Select'
 import { Props as AsyncProps } from 'react-select/lib/Async'
-import Select, {Creatable, Async, AsyncCreatable} from 'react-select'
+import Select, { Creatable, Async, AsyncCreatable } from 'react-select'
 
 
 // const Select = FormGroupFactory<SelectProps<any>, any>(Select2)
@@ -29,38 +29,40 @@ const customStyles = {
 /**
  * Select
  */
-interface MySelectProps<G> extends SelectProps<G>{
-	theme?: any
+interface MSelectProps {
+	theme?: any,
+	handleChange?: (e: any, name?: string, value?: any) => any
 }
 
-export const MySelect = (props:MySelectProps<any>) => {
-	return (							
-		<Select 
-			{...props}
-			// @ts-ignore
-			// theme={(theme) => {}}
+
+export const MSelect = (props: MSelectProps & SelectProps<any>) => {
+	let { handleChange, ...rest } = props
+	const handleChangeFun = (value: any) => {
+		if (props.handleChange) props.handleChange(null, props.name, value)
+	}
+	//@ts-ignore
+	if (props.handleChange) rest.onChange = handleChangeFun
+	return (
+		<Select
+			{...rest}
+		// @ts-ignore
+		// theme={(theme) => {}}
 		/>
 	)
 }
 
-export const FGSelect =  FormGroupFactory<MySelectProps<any>, any>(MySelect)
-
-
-/**
- * Async
- */
-interface MyAsyncProps<G> extends AsyncProps<G>{
-	theme?: any
-}
-
-export const MyAsyncSelect = (props:MyAsyncProps<any>) => {
-	return (							
-		<Async 
-			{...props}
-			// @ts-ignore
-			// theme={(theme) => {}}
+export const MAsync = (props: MSelectProps & AsyncProps<any>) => {
+	let { handleChange, ...rest } = props
+	const handleChangeFun = (value: any) => {
+		if (props.handleChange) props.handleChange(null, props.name, value)
+	}
+	//@ts-ignore
+	if (props.handleChange) rest.onChange = handleChangeFun
+	return (
+		<Async
+			{...rest}
+		// @ts-ignore
+		// theme={(theme) => {}}
 		/>
 	)
 }
-
-export const FGAsyncSelect =  FormGroupFactory<MyAsyncProps<any>, any>(MyAsyncSelect)

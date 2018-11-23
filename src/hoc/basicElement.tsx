@@ -1,41 +1,66 @@
-import React, { CSSProperties } from 'react'
+import React, { CSSProperties, HTMLAttributes } from 'react'
 import { colorClasses, getColorClass } from '../ui/_utils/colorClasses'
 import { generateClassNames } from '../ui/_utils/generateClassNames'
 
 export interface IBasicElementProps {
 	tag?: string
-	children?: any
-	loading?: boolean
-	className?: string
+	isLoading?: boolean
 	addClass?: string
-	onClick?: () => void
+	item?: any
+	handleClick?: (e: any, item?: any) => any
 	color?: colorClasses
 	style?: CSSProperties
 	[key: string]: any
 }
 
 export interface IBasicElementAdditional {
-	defaultClass: string
+	defaultClass?: string
 	defaultTag?: string
 	[key: string]: any
 }
 
-export function basicElement<P={}>(additionalProps: IBasicElementAdditional, useColor?: { prefix: string, suffix: string }) {
+// function getPartialProps(props: any){
+// 	const {handleProps} = props
+// 	if(handleProps){
+// 		try {
+// 			const newProps : any = {}
+// 			handleProps.split('|').forEach((prop: string) => newProps[prop] = props[prop])	
+// 			return newProps
+// 		} catch (error) {
+// 			return props
+// 		}
+// 	}
+// 	return props
+// }
+
+export function basicElement<P={}, S=HTMLDivElement>(additionalProps: IBasicElementAdditional, useColor?: { prefix: string, suffix: string }) {
 	// interface NewProps extends IBasicElementProps
-	return (props: IBasicElementProps & P) => {
+	return (props: IBasicElementProps & HTMLAttributes<S>) => {
 		const { defaultClass, defaultTag='div', ...restAdditional } = additionalProps
-		const { tag: Tag = defaultTag, addClass, color, className, children, onClick, loading, ...rest } = props as IBasicElementProps
+		const { tag: Tag = defaultTag, setRef, onClick, item, handleClick, addClass, color, className, children, isLoading, ...rest } = props as IBasicElementProps
 		const classNames: any[] = [defaultClass, addClass]
 
 		if (useColor && color) classNames.push(getColorClass(color, useColor.prefix, useColor.suffix))
 
+		// let partialProps = getPartialProps(props)
+		const handleClickFun = (e: any) => {
+			if(onClick) onClick(e)
+			if(handleClick) {
+				handleClick(e, item || props)
+			}
+		}
+
+		let classNameGen = className || generateClassNames(classNames)
+		if(classNameGen) rest.className = classNameGen
+
 		return (
-			<Tag className={className || generateClassNames(classNames)} {...rest} {...restAdditional}>
+			<Tag ref={setRef} onClick={handleClickFun} {...rest} {...restAdditional}>
 				{children}
 			</Tag>
 		)
 	}
 }
+
 
 // export const Button = (props: BuProps) => {
 // 	const { tag:Tag='div', addClass, type, className, children, onClick, loading, setRef, ...rest } = props

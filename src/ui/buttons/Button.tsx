@@ -1,6 +1,7 @@
 import React from 'react'
 import { colorClasses, getColorClass } from '../_utils/colorClasses'
 import { generateClassNames } from '../_utils/generateClassNames'
+import { sizeClasses, getSizeClass } from '../_utils/sizeClasses'
 
 export interface ButtonProps {
 	tag?: 'button' | 'a' | string
@@ -13,15 +14,19 @@ export interface ButtonProps {
 	outline?: boolean
 	onClick?: () => void
 	color?: colorClasses
+	size?: sizeClasses
 	[key: string]: any
 }
 
 export const Button = (props: ButtonProps) => {
-	const { tag: Tag = 'button', addClass, block, circle, outline, color, className, children, loading, setRef, ...rest } = props
+	const { tag: Tag = 'button', addClass, block, circle, outline, color, className, children, loading, setRef, size, ...rest } = props
 	let classNames: any[] = ['btn', addClass]
 	if (circle) classNames.push('btn-circle')
+
 	if (outline) classNames.push(getColorClass(color || 'secondary', 'btn-outline'))
 	else classNames.push(getColorClass(color || 'secondary', 'btn'))
+
+	if (size) classNames.push(getSizeClass(size, 'btn'))
 
 	if(block) classNames.push('btn-block')
 	

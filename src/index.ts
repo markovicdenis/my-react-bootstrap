@@ -1,9 +1,14 @@
 export * from './hoc/basicElement'
 
 export * from './form/FormGroupFactory'
+export * from './form/Validate'
 export * from './form/Input'
 export * from './form/Select'
 export * from './form/Textarea'
+export * from './form/Checkbox'
+export * from './form/Radio'
+export * from './form/Label'
+export * from './form/FormGroup'
 
 export * from './ui/_utils/index'
 

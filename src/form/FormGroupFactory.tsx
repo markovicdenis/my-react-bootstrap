@@ -3,10 +3,9 @@ import get from 'lodash/get'
 import { generateClassNames } from '../ui/_utils'
 
 export type FProps<E extends {}> = E & {
-	id?: string
-	name?: string
-	className?: string
-	addClass?: string
+	wId?: string
+	wClassName?: string
+	wAddClass?: string
 	label?: string
 	feedback?: { valid?: any, invalid?: any }
 	isValid?: boolean
@@ -15,6 +14,8 @@ export type FProps<E extends {}> = E & {
 	help?: any
 	errors?: any
 	maxErrors?: number
+	id?: string
+	name?: string
 }
 
 export function FormGroupFactory<P, S>(ReactElement: React.ComponentClass | any) {
@@ -39,12 +40,11 @@ export function FormGroupFactory<P, S>(ReactElement: React.ComponentClass | any)
 		}
 
 		render() {
-			const { className, addClass, label, help, showHelp, ...rest } = this.props as any
-			let name = this.props.name
-			let classNames: any[] = [className]
+			const { wId, wClassName, wAddClass, label, help, showHelp, ...rest } = this.props as any
+			let classNames: any[] = [wClassName]
 			let { valid: validFeedback, invalid: invalidFeedback }: any = this.props.feedback || {}
 
-			if (addClass) classNames.push(addClass)
+			if (wAddClass) classNames.push(wAddClass)
 
 			if (!invalidFeedback && this.props.errors) invalidFeedback = this.extractInvalidFeedback()
 
@@ -58,7 +58,7 @@ export function FormGroupFactory<P, S>(ReactElement: React.ComponentClass | any)
 			}
 
 			return (
-				<div className={generateClassNames(classNames)}>
+				<div className={generateClassNames(classNames)} id={wId}>
 					{label && <label htmlFor={this.props.id}>{label}</label>}
 					<ReactElement {...rest}></ReactElement>
 					{help && (!invalidFeedback || showHelp) &&
