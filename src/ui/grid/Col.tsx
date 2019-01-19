@@ -1,12 +1,13 @@
-import React, { PureComponent } from 'react'
+import React, { PureComponent, CSSProperties } from 'react'
 import { generateClassNames } from '../_utils'
 
 interface Props {
-	tag?: 'div'|'article'
+	tag?: 'div' | 'article'
 	children?: any
 	onClick?: any
 	className?: string
 	addClass?: string
+	style?: CSSProperties
 	w?: boolean
 	xs?: number | boolean | 'auto'
 	sm?: number | boolean | 'auto'
@@ -25,7 +26,7 @@ export class Col extends PureComponent<Props>{
 		tag: 'div'
 	}
 
-	getClass(){
+	getClass() {
 		if (this.props.w) {
 			this.classNames.unshift('w-100')
 		} else {
@@ -49,16 +50,17 @@ export class Col extends PureComponent<Props>{
 	}
 
 	render() {
-		const Tag = `${this.props.tag}`
+		const { tag, addClass, ...rest } = this.props
+		const Tag: any = `${tag}`
+		this.classNames.push(addClass as string)
 		this.getClass()
 		return (
-			<Tag className={this.props.className || generateClassNames(this.classNames)} onClick={this.props.onClick}>
+			<Tag className={this.props.className || generateClassNames(this.classNames)} {...rest}>
 				{this.props.children}
 			</Tag>
 		)
 	}
 }
-
 
 export class ArticleCol extends Col {
 	static defaultProps = {

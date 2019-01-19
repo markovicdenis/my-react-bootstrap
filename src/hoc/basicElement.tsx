@@ -1,6 +1,7 @@
 import React, { CSSProperties, HTMLAttributes } from 'react'
 import { colorClasses, getColorClass } from '../ui/_utils/colorClasses'
 import { generateClassNames } from '../ui/_utils/generateClassNames'
+import { sizeClasses, getSizeClass } from '../ui/_utils/sizeClasses'
 
 export interface IBasicElementProps {
 	tag?: string
@@ -9,6 +10,7 @@ export interface IBasicElementProps {
 	item?: any
 	handleClick?: (e: any, item?: any) => any
 	color?: colorClasses
+	size?: sizeClasses
 	style?: CSSProperties
 	[key: string]: any
 }
@@ -37,10 +39,12 @@ export function basicElement<P={}, S=HTMLDivElement>(additionalProps: IBasicElem
 	// interface NewProps extends IBasicElementProps
 	return (props: IBasicElementProps & HTMLAttributes<S>) => {
 		const { defaultClass, defaultTag='div', ...restAdditional } = additionalProps
-		const { tag: Tag = defaultTag, setRef, onClick, item, handleClick, addClass, color, className, children, isLoading, ...rest } = props as IBasicElementProps
+		const { tag = defaultTag, setRef, onClick, item, handleClick, addClass, color, className, children, isLoading, size, ...rest } = props as IBasicElementProps
 		const classNames: any[] = [defaultClass, addClass]
+		const Tag:any = tag
 
 		if (useColor && color) classNames.push(getColorClass(color, useColor.prefix, useColor.suffix))
+		if (size) className.push(getSizeClass(size, defaultClass))
 
 		// let partialProps = getPartialProps(props)
 		const handleClickFun = (e: any) => {
