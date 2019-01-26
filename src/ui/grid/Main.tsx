@@ -21,4 +21,4 @@
 
 import { basicElement } from '../../hoc/basicElement'
 
-export const Main = basicElement({ defaultClass: 'main' })
+export const Main = basicElement({ defaultClass: 'main', defaultTag: 'main' })

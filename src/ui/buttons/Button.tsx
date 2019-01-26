@@ -2,6 +2,8 @@ import React from 'react'
 import { colorClasses, getColorClass } from '../_utils/colorClasses'
 import { generateClassNames } from '../_utils/generateClassNames'
 import { sizeClasses, getSizeClass } from '../_utils/sizeClasses'
+import { Spinner } from '../spinner/Spinner'
+import { Spring, Transition, animated } from 'react-spring'
 
 export interface ButtonProps {
 	tag?: 'button' | 'a' | string
@@ -19,7 +21,8 @@ export interface ButtonProps {
 }
 
 export const Button = (props: ButtonProps) => {
-	const { tag: Tag = 'button', addClass, block, circle, outline, color, className, children, loading, setRef, size, ...rest } = props
+	const { tag = 'button', addClass, block, circle, outline, color, className, children, loading, setRef, size, ...rest } = props
+	const Tag: any = tag
 	let classNames: any[] = ['btn', addClass]
 	if (circle) classNames.push('btn-circle')
 
@@ -28,12 +31,23 @@ export const Button = (props: ButtonProps) => {
 
 	if (size) classNames.push(getSizeClass(size, 'btn'))
 
-	if(block) classNames.push('btn-block')
-	
+	if (block) classNames.push('btn-block')
+
 	return (
 		<Tag className={className || generateClassNames(classNames)} {...rest} ref={setRef}>
 			{children}
-			{loading && <div className={`loader loader--small ml-2 ${getColorClass(color || 'secondary', 'loader-')}`}></div>}
+			{loading && <Spring
+				native
+				from={{ width: 0, scale: 0 }}
+				to={{ width: 20, scale: 1 }}
+			>
+				{(props: any) => <animated.div style={{ display: 'inline-block', textAlign: 'right', ...props, transform: `scale(${props.scale})` }}><Spinner grow size="small" /></animated.div>
+				}
+			</Spring>}
 		</Tag>
 	)
 }
+
+
+//{loading && <Spinner grow size="small" style={{ marginLeft: '0.45rem' }} />}
+//{loading && <div className={`loader loader--small ml-2 ${getColorClass(color || 'secondary', 'loader-')}`}></div>}

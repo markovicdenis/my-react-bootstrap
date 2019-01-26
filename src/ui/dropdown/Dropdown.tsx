@@ -61,7 +61,7 @@ export class Dropdown extends Component<Props, State>{
 	renderItems = (items: DropdownItem[]) => {
 		if (!isBrowser) return []
 		return items.map((item: DropdownItem, index: number) => {
-			let Tag = 'a'
+			let Tag: any = 'a'
 			let className = 'dropdown-item'
 			const {active, disabled, label, divider, header, ...rest} = item
 			if (divider) return <div key={`divider${index}`} className="dropdown-divider"></div>

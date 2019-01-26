@@ -31,4 +31,8 @@ export * from './ui/grid'
 export * from './ui/Collapse'
 export * from './ui/DHtml'
 export * from './ui/Divider'
+
+export * from './ui/toggle/Toggle'
 // export * from './ui/grid/Main'
+
+export * from './ui/spinner/Spinner'
