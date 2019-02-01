@@ -1,5 +1,6 @@
 import React, { Component, createRef } from "react"
 import { _$ } from "./_utils"
+import { Spring, config, animated } from "react-spring"
 
 interface Props {
 	className?: string,
@@ -15,33 +16,52 @@ interface State {
 
 export class Collapse extends Component<Props>{
 	private element = createRef<HTMLDivElement>()
+	private animate = false
 
-	componentDidMount(){
+	componentDidMount() {
+		this.animate = true
 		// const elem = _$(this.element.current)
 	}
 
-	async componentDidUpdate(prevProps:Props){
-		if(this.props.show !== prevProps.show){
-			const elem = _$(this.element.current)
-			if(elem && this.props.show){
-				elem.collapse('show')
-			}else if(elem){
-				elem.collapse('hide')
-			}
-		}
-	}
+	// async componentDidUpdate(prevProps: Props) {
+	// 	if (this.props.show !== prevProps.show) {
+	// 		const elem = _$(this.element.current)
+	// 		if (elem && this.props.show) {
+	// 			elem.collapse('show')
+	// 		} else if (elem) {
+	// 			elem.collapse('hide')
+	// 		}
+	// 	}
+	// }
 	// let containerClassName = props.containerClassName || 'container'
 	// let content = <div className={containerClassName}>{props.children}</div>
 	// if (props.nocontainer) content = props.children
 	render() {
-		let classNames = ['collapse', this.props.className]
+		const {show, className, children} = this.props
+		let classNames = ['collapse show', className]
 
-		if(this.props.show) classNames.push('show')
+		// if (show) classNames.push('show')
 
 		return (
-			<div ref={this.element} className={classNames.join(' ')}>
-				{this.props.children}
-			</div>
+			<Spring
+				native
+				immediate={!this.animate}
+				// config={config.stiff}
+				config={{ tension: 2000, friction: 100, precision: 1 }}
+				from={{ height: show ? 0 : 'auto', opacity: 0, transform: 'translate3d(0,20px,0)' }}
+				to={{ 
+					height: show ? 'auto' : 0, 
+					opacity: show ? 1 : 0,
+					transform: show ? 'translate3d(0,0,0)' : 'translate3d(0,20px,0)'
+				}}
+			>
+				{(props) => (
+					<animated.div ref={this.element} className={classNames.join(' ')} style={{...props }}>
+						{children}
+					</animated.div>
+
+				)}
+			</Spring>
 		)
 	}
 }

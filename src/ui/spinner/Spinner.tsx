@@ -3,7 +3,7 @@ import { CloseButton } from '../buttons/CloseButton'
 import { delay } from '../_utils'
 import { generateClassNames } from '../_utils/generateClassNames'
 import { colorClasses, getColorClass } from '../_utils/colorClasses'
-import { getSizeClass } from '../_utils/sizeClasses';
+import { getSizeClass } from '../_utils/sizeClasses'
 
 interface Props {
 	onClick?: () => void
@@ -26,7 +26,7 @@ export class Spinner extends PureComponent<Props, State>{
 
 
 	render() {
-		const {addClass, grow, size, color, ...rest} = this.props
+		const {addClass, grow, size, color, visible, ...rest} = this.props
 		const mainClass = grow ? 'spinner-grow' : 'spinner-border'
 		let classNames: any[] = [mainClass, addClass]
 
@@ -34,6 +34,7 @@ export class Spinner extends PureComponent<Props, State>{
 
 		if (color) classNames.push(getColorClass(color || 'secondary', 'text'))
 
+		if(typeof visible === 'boolean' && !visible) return null 
 
 		return (
 			<div className={this.props.className || generateClassNames(classNames)} role="status" {...rest}>

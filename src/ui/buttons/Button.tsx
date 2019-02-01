@@ -3,7 +3,7 @@ import { colorClasses, getColorClass } from '../_utils/colorClasses'
 import { generateClassNames } from '../_utils/generateClassNames'
 import { sizeClasses, getSizeClass } from '../_utils/sizeClasses'
 import { Spinner } from '../spinner/Spinner'
-import { Spring, Transition, animated } from 'react-spring'
+import { Spring, Transition, animated, config } from 'react-spring'
 
 export interface ButtonProps {
 	tag?: 'button' | 'a' | string
@@ -38,11 +38,15 @@ export const Button = (props: ButtonProps) => {
 			{children}
 			{loading && <Spring
 				native
+				config={{ ...config.stiff, precision: 0.1 }}
 				from={{ width: 0, scale: 0 }}
-				to={{ width: 20, scale: 1 }}
+				to={{ width: loading ? 'auto' : 0, scale: loading ? 1 : 0 }}
 			>
-				{(props: any) => <animated.div style={{ display: 'inline-block', textAlign: 'right', ...props, transform: `scale(${props.scale})` }}><Spinner grow size="small" /></animated.div>
-				}
+				{(props: any) => (
+					<animated.div style={{ pointerEvents: 'none', display: 'inline-block', textAlign: 'right', ...props, opacity: props.scale }}>
+						<Spinner grow size="small" />
+					</animated.div>
+				)}
 			</Spring>}
 		</Tag>
 	)
