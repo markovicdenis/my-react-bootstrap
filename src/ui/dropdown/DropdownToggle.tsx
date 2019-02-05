@@ -9,7 +9,7 @@ interface NProps extends Props {
 
 export const DropdownToggle = (props: NProps) => {
 	const classes = ['dropdown-toggle', (props.split ? 'dropdown-toggle-split' : '')]
-	const { split, dataTogle, ...newProps } = { ...props, addClass: generateClassNames([props.addClass || '', ...classes]) }
+	const { split, dataTogle, ...newProps } = { ...props, addClass: generateClassNames([props.addClass, ...classes]) }
 
 	return (
 		// <Button {...newProps} data-toggle={dataTogle || 'dropdown'}>

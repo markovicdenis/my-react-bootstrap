@@ -2,6 +2,7 @@ import React from 'react'
 import { FormGroupFactory } from './FormGroupFactory'
 import { Props as SelectProps } from 'react-select/lib/Select'
 import { Props as AsyncProps } from 'react-select/lib/Async'
+import { Props as CreatableProps } from 'react-select/lib/Creatable'
 import Select, { Creatable, Async, AsyncCreatable } from 'react-select'
 
 
@@ -60,6 +61,22 @@ export const MAsync = (props: MSelectProps & AsyncProps<any>) => {
 	if (props.handleChange) rest.onChange = handleChangeFun
 	return (
 		<Async
+			{...rest}
+		// @ts-ignore
+		// theme={(theme) => {}}
+		/>
+	)
+}
+
+export const MAsyncCreatable = (props: MSelectProps & AsyncProps<any> & CreatableProps<any>) => {
+	let { handleChange, ...rest } = props
+	const handleChangeFun = (value: any) => {
+		if (props.handleChange) props.handleChange(null, props.name, value)
+	}
+	//@ts-ignore
+	if (props.handleChange) rest.onChange = handleChangeFun
+	return (
+		<AsyncCreatable
 			{...rest}
 		// @ts-ignore
 		// theme={(theme) => {}}
