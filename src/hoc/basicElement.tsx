@@ -44,7 +44,7 @@ export function basicElement<P={}, S=HTMLDivElement>(additionalProps: IBasicElem
 		const Tag:any = tag
 
 		if (useColor && color) classNames.push(getColorClass(color, useColor.prefix, useColor.suffix))
-		if (size) className.push(getSizeClass(size, defaultClass))
+		if (size) classNames.push(getSizeClass(size, defaultClass))
 
 		// let partialProps = getPartialProps(props)
 		const handleClickFun = (e: any) => {

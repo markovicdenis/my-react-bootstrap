@@ -1,6 +1,6 @@
 import React, { Component, createRef } from 'react'
 import { _$, isBrowser, delay } from '../_utils'
-import { Spring, animated, config } from 'react-spring'
+import { Spring, animated, config } from 'react-spring/renderprops.cjs'
 
 interface Props {
 	toggle?: (toggle: any) => any

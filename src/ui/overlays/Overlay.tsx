@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Spring } from 'react-spring'
+import { Spring } from 'react-spring/renderprops.cjs'
 import { generateClassNames } from '../_utils/generateClassNames'
 import { colorClasses, getColorClass } from '../_utils/colorClasses'
 

@@ -3,7 +3,7 @@ import { colorClasses, getColorClass } from '../_utils/colorClasses'
 import { generateClassNames } from '../_utils/generateClassNames'
 import { sizeClasses, getSizeClass } from '../_utils/sizeClasses'
 import { Spinner } from '../spinner/Spinner'
-import { Spring, Transition, animated, config } from 'react-spring'
+import { Spring, Transition, animated, config } from 'react-spring/renderprops.cjs'
 
 export interface ButtonProps {
 	tag?: 'button' | 'a' | string
@@ -14,7 +14,7 @@ export interface ButtonProps {
 	addClass?: string
 	circle?: boolean
 	outline?: boolean
-	onClick?: () => void
+	onClick?: (e: any) => void
 	color?: colorClasses
 	size?: sizeClasses
 	[key: string]: any

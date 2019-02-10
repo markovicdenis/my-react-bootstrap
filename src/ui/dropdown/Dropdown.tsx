@@ -2,7 +2,7 @@ import React, { Component, createRef, RefObject } from 'react'
 import { _$, isBrowser, generateClassNames, delay, colorClasses } from '../_utils'
 import { Button } from '../buttons/Button'
 import { DropdownToggle } from './DropdownToggle'
-import { Spring, animated, config } from 'react-spring'
+import { Spring, animated, config } from 'react-spring/renderprops.cjs'
 import { sizeClasses } from '../_utils/sizeClasses'
 
 type DropdownItem = { label: any, value?: any, header?: boolean | 'h5' | 'h6', divider?: boolean, disabled?: boolean, active?: boolean, href?: string }

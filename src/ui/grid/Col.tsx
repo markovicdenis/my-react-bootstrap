@@ -16,7 +16,7 @@ interface Props {
 	xl?: number | boolean | 'auto'
 }
 
-const sizes: string[] = ['sm', 'md', 'lg']
+const sizes: string[] = ['xs', 'sm', 'md', 'lg']
 
 
 export class Col extends PureComponent<Props>{
@@ -32,7 +32,7 @@ export class Col extends PureComponent<Props>{
 		} else {
 			sizes.forEach((size: string) => {
 				const propsSize: string = (this.props as any)[size]
-				if (size === 'xs') {
+				if (propsSize && size === 'xs') {
 					if (typeof propsSize === 'number') this.classNames.unshift(`col-${propsSize}`)
 					else if (propsSize === 'auto') this.classNames.push(`col-auto`)
 					else this.classNames.unshift(`col`)
@@ -50,7 +50,7 @@ export class Col extends PureComponent<Props>{
 	}
 
 	render() {
-		const { tag, addClass, ...rest } = this.props
+		const { tag, addClass, xs, sm, md, lg, xl, ...rest } = this.props
 		const Tag: any = `${tag}`
 		this.classNames.push(addClass as string)
 		this.getClass()

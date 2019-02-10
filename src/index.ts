@@ -38,3 +38,4 @@ export * from './ui/toggle/Toggle'
 export * from './ui/spinner/Spinner'
 
 export * from './ui/overlays/Overlay'
+export * from './ui/overlays/OverlayWrapper'

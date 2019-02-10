@@ -1,6 +1,6 @@
 import React, { Component, createRef } from "react"
 import { _$ } from "./_utils"
-import { Spring, config, animated } from "react-spring"
+import { Spring, config, animated } from "react-spring/renderprops.cjs"
 
 interface Props {
 	className?: string,
