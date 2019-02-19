@@ -13,8 +13,6 @@
   "license": "ISC",
   "dependencies": {
     "lodash": "^4.17.11",
-    "react": "^16.8.2",
-    "react-dom": "^16.8.2",
     "react-select": "^2.3.0",
     "react-spring": "^8.0.7"
   },

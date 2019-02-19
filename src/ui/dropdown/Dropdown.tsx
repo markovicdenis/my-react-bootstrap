@@ -1,6 +1,5 @@
-import React, { Component, createRef, RefObject } from 'react'
-import { _$, isBrowser, generateClassNames, delay, colorClasses } from '../_utils'
-import { Button } from '../buttons/Button'
+import React, { Component } from 'react'
+import { _$, isBrowser, generateClassNames, colorClasses } from '../_utils'
 import { DropdownToggle } from './DropdownToggle'
 import { Spring, animated, config } from 'react-spring/renderprops.cjs'
 import { sizeClasses } from '../_utils/sizeClasses'
@@ -33,14 +32,12 @@ interface State {
 	item: any
 	labelValue?: any
 	show?: boolean
-	mounted?: boolean
 	outsideClick?: boolean
 	forceUp: boolean
 }
 
 export class Dropdown extends Component<Props, State>{
 	private dropdownToggle: any
-	private dropdownElement: any
 	private dropMenu?: any
 
 	static defaultProps = {
@@ -51,7 +48,6 @@ export class Dropdown extends Component<Props, State>{
 		this.state = {
 			item: null,
 			show: props.show,
-			mounted: false,
 			outsideClick: false,
 			forceUp: false,
 			labelValue: undefined
@@ -59,7 +55,6 @@ export class Dropdown extends Component<Props, State>{
 	}
 
 	componentDidMount() {
-		this.setState({ mounted: true })
 		if (document) document.addEventListener('mousedown', this.menuClick)
 		if (window) {
 			window.addEventListener('scroll', this.handleScroll)
@@ -134,11 +129,13 @@ export class Dropdown extends Component<Props, State>{
 				return <Tag key={`header${label}`}>{label}</Tag>
 			}
 			if (disabled) className += ' disabled'
-			if (active || this.props.value === item.value) className += ' active'
+			if (active || 
+				(typeof item.value !== 'undefined' && this.props.value === item.value ) ||
+				(this.state.item && this.state.item.label === item.label)
+				) className += ' active'
 
 			if (Tag === 'a' && !item.href) rest.href = '#'
 			// if(Tag === 'button') rest.type='button'
-
 			return <Tag key={`${label}$`} className={className} onClick={(e: any) => this.itemClick(e, item)} {...rest}>{item.label}</Tag>
 		})
 	}
@@ -148,7 +145,7 @@ export class Dropdown extends Component<Props, State>{
 		let { item } = this.state
 		if (dynamic || typeof value !== 'undefined') {
 			if(!item){
-				item = items.filter((di, i) => di.value === value || di.label === value)[0] || {}
+				item = items.filter((di) => di.value === value || di.label === value)[0] || {}
 			}
 			return item.label || item.value || toggleLabel
 		}
@@ -157,18 +154,18 @@ export class Dropdown extends Component<Props, State>{
 	}
 
 	render() {
-		const { show, mounted, item } = this.state
-		const { className, addClass, toggle, toggleClass, toggleColor, toggleSize, split, items, children, itemsAfter } = this.props
+		const { show, item } = this.state
+		const { className, addClass, toggle, toggleColor, toggleSize, split, items, children, itemsAfter } = this.props
 		let classNames = [(split ? 'btn-group' : 'dropdown'), addClass]
 		let dropdownClassNames = ['dropdown-menu', (this.props.alignRight ? 'dropdown-menu-right' : '')]
 		if (this.state.forceUp) classNames.push('dropup')
-		if (mounted || show) {
-			// classNames.push('show')
-			dropdownClassNames.push('show')
-		}
-		if(show){
-			classNames.push('show')
-		}
+		// if (mounted || show) {
+		// 	// classNames.push('show')
+		// 	dropdownClassNames.push('show')
+		// }
+		// if(show){
+		// 	classNames.push('show')
+		// }
 		return (
 			<div className={className || generateClassNames(classNames)}>
 				{toggle ?
@@ -183,15 +180,16 @@ export class Dropdown extends Component<Props, State>{
 					config={{ ...config.stiff, precision: 0.1 }}
 					// immediate={show}
 					// config={{ tension: 200, friction: 100, precision: 1 }}
-					from={{ height: 'auto', opacity: 0 }}
+					from={{ height: 0, opacity: 0 }}
 					to={{
-						height: 'auto',
+						height: show? 'auto' : 0,
 						opacity: show ? 1 : 0,
 						// transform: show ? 'translate3d(0,0,0)' : 'translate3d(0,10px,0)',
 					}}
 				>
 					{(styleProps) => (
-						<animated.div className={generateClassNames(dropdownClassNames)} style={{ pointerEvents: show ? 'auto' : 'none', ...styleProps }} ref={(c: any) => this.dropMenu = c}>
+						<animated.div className={generateClassNames(dropdownClassNames)} style={{ 
+							pointerEvents: show ? 'auto' : 'none', display: show? 'block' :'none',...styleProps }} ref={(c: any) => this.dropMenu = c}>
 							{items && this.renderItems(items)}
 							{children}
 							{itemsAfter && this.renderItems(itemsAfter)}
