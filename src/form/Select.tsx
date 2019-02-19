@@ -1,9 +1,10 @@
 import React from 'react'
 import { FormGroupFactory } from './FormGroupFactory'
-import { Props as SelectProps } from 'react-select/lib/Select'
-import { Props as AsyncProps } from 'react-select/lib/Async'
-import { Props as CreatableProps } from 'react-select/lib/Creatable'
-import Select, { Creatable, Async, AsyncCreatable } from 'react-select'
+import Select, { Props as SelectProps } from 'react-select/lib/Select'
+import Async, { Props as AsyncProps } from 'react-select/lib/Async'
+import { Props as CreatableProps} from 'react-select/lib/Creatable'
+import AsyncCreatable from 'react-select/lib/Creatable'
+// import Select, { Creatable, Async } from 'react-select'
 
 
 // const Select = FormGroupFactory<SelectProps<any>, any>(Select2)
