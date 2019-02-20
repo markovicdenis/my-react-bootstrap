@@ -22,10 +22,7 @@ export * from './ui/dropdown/DropdownToggle'
 
 export * from './ui/nav/index'
 
-export * from './ui/modal/ModalBody'
-export * from './ui/modal/ModalFooter'
-export * from './ui/modal/ModalHeader'
-export * from './ui/modal/Modal'
+export * from './ui/modal'
 
 export * from './ui/tabs'
 
@@ -42,5 +39,3 @@ export * from './ui/spinner/Spinner'
 
 export * from './ui/overlays/Overlay'
 export * from './ui/overlays/OverlayWrapper'
-
-export * from './ui/modal/Test'

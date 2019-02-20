@@ -1,58 +1,36 @@
-import React, { Component } from 'react'
-import { Spring } from 'react-spring/renderprops.cjs'
+import React, { useState, memo } from 'react'
 import { generateClassNames } from '../_utils/generateClassNames'
-import { colorClasses, getColorClass } from '../_utils/colorClasses'
+import { colorClasses } from '../_utils/colorClasses'
+import { useSpring, animated, config } from 'react-spring'
 
 interface Props {
-	onClick?: () => void
-	children?: any
-	center?: boolean
-	className?: string
-	addClass?: string
-	visible?: boolean
-	color?: colorClasses
+  onClick?: () => void
+  children?: any
+  center?: boolean
+  className?: string
+  addClass?: string
+  visible?: boolean
+  color?: colorClasses
 }
 
-interface State {
-	show?: boolean
-}
+export const Overlay = memo((props: Props) => {
+  const { addClass, className, children, visible, center=true, ...rest } = props
+  const [] = useState(visible)
+  const { opacity }:any = useSpring({
+    from: { opacity: 0 },
+    to: { opacity: visible ? 1 : 0 },
+    config: config.gentle
+  })
 
-export class Overlay extends Component<Props, State>{
-	static defaultProps = {
-		onClick: () => { }
-	}
+  let classNames: any[] = ['overlay', addClass]
 
-	constructor(props: Props){
-		super(props)
-		this.state = {
-			show: props.visible
-		}
-	}
+  if (center) classNames.push('overlay--center')
 
-	render() {
-		const { addClass, children, visible, center, ...rest } = this.props
-		let classNames: any[] = ['overlay', addClass]
-
-		// if (this.props.status) classNames.push(getColorClass(colorLookup[this.props.status], 'alert'))
-		// else if (this.props.color) classNames.push(getColorClass(this.props.color || 'secondary', 'alert'))
-
-		// if (this.state.fade) classNames.push('fade')
-		if(center) classNames.push('overlay--center')
-
-		return (
-			<Spring
-				from={{ opacity: 0 }}
-				config={{ tension: 2000, friction: 100, precision: 1 }}
-				to={{ opacity: visible ? 1 : 0 }}
-			>
-				{(props: any) => (
-					<div className={this.props.className || generateClassNames(classNames)} {...rest}
-						style={{...props, zIndex: visible ? 1 : -1 }}
-					>
-						{visible && children}
-					</div>
-				)}
-			</Spring>
-		)
-	}
-}
+  return (
+    <animated.div className={className || generateClassNames(classNames)} {...rest}
+      style={{ opacity }}
+    >
+      {visible && children}
+    </animated.div>
+  )
+})

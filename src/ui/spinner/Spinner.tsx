@@ -1,45 +1,36 @@
-import React, { PureComponent, CSSProperties } from 'react'
-import { CloseButton } from '../buttons/CloseButton'
-import { delay } from '../_utils'
+import React, { CSSProperties } from 'react'
 import { generateClassNames } from '../_utils/generateClassNames'
 import { colorClasses, getColorClass } from '../_utils/colorClasses'
 import { getSizeClass } from '../_utils/sizeClasses'
 
 interface Props {
-	onClick?: () => void
-	children?: any
-	className?: string
-	addClass?: string
-	grow?: boolean
-	visible?: boolean
-	hasCloseButton?: boolean
-	color?: colorClasses
-	size?: 'small'
-	style?: CSSProperties
+  onClick?: () => void
+  children?: any
+  className?: string
+  addClass?: string
+  grow?: boolean
+  visible?: boolean
+  hasCloseButton?: boolean
+  color?: colorClasses
+  size?: 'small'
+  style?: CSSProperties
 
 }
 
-interface State {
-}
+export const Spinner = (props: Props) => {
+  const { addClass, grow, size, color, visible, ...rest } = props
+  const mainClass = grow ? 'spinner-grow' : 'spinner-border'
+  let classNames: any[] = [mainClass, addClass]
 
-export class Spinner extends PureComponent<Props, State>{
+  if (size) classNames.push(getSizeClass(size, mainClass))
 
+  if (color) classNames.push(getColorClass(color || 'secondary', 'text'))
 
-	render() {
-		const {addClass, grow, size, color, visible, ...rest} = this.props
-		const mainClass = grow ? 'spinner-grow' : 'spinner-border'
-		let classNames: any[] = [mainClass, addClass]
+  if (typeof visible === 'boolean' && !visible) return null
 
-		if (size) classNames.push(getSizeClass(size, mainClass))
-
-		if (color) classNames.push(getColorClass(color || 'secondary', 'text'))
-
-		if(typeof visible === 'boolean' && !visible) return null 
-
-		return (
-			<div className={this.props.className || generateClassNames(classNames)} role="status" {...rest}>
-				<span className="sr-only">Loading...</span>
-			</div>
-		)
-	}
+  return (
+    <div className={props.className || generateClassNames(classNames)} role="status" {...rest}>
+      <span className="sr-only">Loading...</span>
+    </div>
+  )
 }
