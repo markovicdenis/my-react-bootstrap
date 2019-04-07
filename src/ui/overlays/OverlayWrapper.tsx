@@ -25,7 +25,7 @@ export class OverlayWrapper extends PureComponent<Props>{
     if(loading) classNames.push('overlay-wrapper')
 
     return (
-      <Tag className={className || generateClassNames(classNames)} {...rest}>
+      <Tag className={className || generateClassNames(classNames)} {...rest} style={{position: 'relative'}}>
         {this.props.children}
       </Tag>
     )

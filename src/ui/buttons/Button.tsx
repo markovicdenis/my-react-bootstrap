@@ -4,7 +4,7 @@ import { generateClassNames } from '../_utils/generateClassNames'
 import { sizeClasses, getSizeClass } from '../_utils/sizeClasses'
 import { Spinner } from '../spinner/Spinner'
 import { useSpring, animated, config } from 'react-spring'
-import { useIsMounted } from '../../effects/useIsMounted'
+import { useIsMounted } from '../../hooks/useIsMounted'
 
 export interface ButtonProps {
   tag?: 'button' | 'a' | string

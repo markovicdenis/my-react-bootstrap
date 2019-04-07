@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect, useLayoutEffect } from "react"
 import { _$ } from "./_utils"
 import { useSpring, animated, config } from "react-spring"
-import { useIsMounted } from "../effects/useIsMounted"
+import { useIsMounted } from "../hooks/useIsMounted"
 
 interface Props {
   className?: string,

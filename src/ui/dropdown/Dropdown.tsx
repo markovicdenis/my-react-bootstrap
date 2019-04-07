@@ -54,8 +54,8 @@ function renderDropdownItems(items: DropdownItem[], activeItem: DropdownItem | a
     return (
       <Tag key={`${label}$`}
         className={className}
-        onMouseDown={(e: any) => callbackFunction(e, item, true)} {...rest}
-        onClick={(e: any) => callbackFunction(e, item)} {...rest}
+        onClick={(e: any) => callbackFunction(e, item)}
+        {...rest}
       >
         {item.label}
       </Tag>
@@ -64,7 +64,7 @@ function renderDropdownItems(items: DropdownItem[], activeItem: DropdownItem | a
 }
 
 export const Dropdown = memo((props: Props) => {
-  const { show, item, itemClick, handleChange, alignRight, className, addClass,
+  const { show, item, name, itemClick, handleChange, alignRight, className, addClass,
     toggle, toggleColor, toggleSize, split, items, children, itemsAfter, value } = props
 
   const dropMenuRef = useRef(null as any)
@@ -132,15 +132,15 @@ export const Dropdown = memo((props: Props) => {
     setIsShown(!isShown)
   }, [isShown])
 
-  const onItemClick = async(e: any, item: DropdownItem, isMouseDown?:boolean) => {
+  const onItemClick = useCallback(async (e: any, item: DropdownItem, isMouseDown?: boolean) => {
     let value = item.value
     if (!value && typeof value !== 'boolean') value = item.label
     if (itemClick) itemClick(item)
     if (handleChange) handleChange(e, name, value, item)
-    setActiveItem(item)
+    setIsShown(false)
     await delay(100)
-    if(!isMouseDown) setIsShown(false)
-  }
+    setActiveItem(item)
+  },[])
 
   const getValue = () => {
     const { toggleLabel, dynamic, value, items = [] } = props
