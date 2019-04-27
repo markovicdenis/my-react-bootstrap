@@ -40,4 +40,8 @@ export * from './ui/spinner/Spinner'
 export * from './ui/overlays/Overlay'
 export * from './ui/overlays/OverlayWrapper'
 
+export * from './ui/popover/Popover'
+export * from './ui/popover/PopoverBody'
+export * from './ui/popover/PopoverHeader'
+
 export * from './hooks/useMeasuere'
