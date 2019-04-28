@@ -12,7 +12,7 @@ export interface Props {
   popperClassName?: string
   innerClassName?: string
   placement?: string
-  target: any
+  target?: any
   container?: any
   isOpen?: boolean
   disabled?: boolean
@@ -65,6 +65,7 @@ export class TooltipPopoverWrapper extends Component<Props, State> {
   }
 
   componentDidMount() {
+    console.log('triggers is ', this.props.trigger)
     this.updateTarget()
   }
 
@@ -73,9 +74,14 @@ export class TooltipPopoverWrapper extends Component<Props, State> {
   }
 
   onMouseOverTooltipContent = () => {
-    if (this.props.trigger && this.props.trigger.indexOf('hover') > -1 && !this.props.autohide) {
-      if (this._hideTimeout) {
-        this.clearHideTimeout()
+    console.log('this mouse in', this.props.trigger)
+    if (this.props.trigger) {
+      const triggers = this.props.trigger ? this.props.trigger.split(' ') : []
+
+      if (triggers.indexOf('hover') > -1 && !this.props.autohide) {
+        if (this._hideTimeout) {
+          this.clearHideTimeout()
+        }
       }
       if (this.state.isOpen && !this.props.isOpen) {
         this.toggle()
@@ -84,15 +90,18 @@ export class TooltipPopoverWrapper extends Component<Props, State> {
   }
 
   onMouseLeaveTooltipContent = (e) => {
-    if (this.props.trigger && this.props.trigger.indexOf('hover') > -1 && !this.props.autohide) {
-      if (this._showTimeout) {
-        this.clearShowTimeout()
+    if (this.props.trigger) {
+      const triggers = this.props.trigger ? this.props.trigger.split(' ') : []
+      if (triggers.indexOf('hover') > -1 && !this.props.autohide) {
+        if (this._showTimeout) {
+          this.clearShowTimeout()
+        }
+        e.persist()
+        this._hideTimeout = setTimeout(
+          this.hide.bind(this, e),
+          this.getDelay('hide')
+        )
       }
-      e.persist()
-      this._hideTimeout = setTimeout(
-        this.hide.bind(this, e),
-        this.getDelay('hide')
-      )
     }
   }
 
@@ -243,11 +252,13 @@ export class TooltipPopoverWrapper extends Component<Props, State> {
   }
 
   updateTarget = () => {
-    const newTarget = getTarget(this.props.target)
-    if (newTarget !== this._target) {
-      this.removeTargetEvents()
-      this._target = newTarget
-      this.addTargetEvents()
+    if (this.props.target) {
+      const newTarget = getTarget(this.props.target)
+      if (newTarget !== this._target) {
+        this.removeTargetEvents()
+        this._target = newTarget
+        this.addTargetEvents()
+      }
     }
   }
 

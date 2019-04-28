@@ -1,10 +1,11 @@
-import React, { useRef, useState, useEffect, useLayoutEffect } from "react"
+import React, { useRef, useState, useEffect, useLayoutEffect, useCallback } from "react"
 import { useSpring, animated, config } from "react-spring"
 import { TooltipPopoverWrapper, Props as TPWProps } from "../popper/TooltipPopoverWrapper"
 import { generateClassNames } from "../_utils"
 
-interface Props extends TPWProps{
+interface Props extends TPWProps {
   // className?: string,
+  toggleRender?: any,
   children?: any,
   // show?: boolean,
   // placement?: string,
@@ -14,14 +15,11 @@ interface Props extends TPWProps{
   // toggle?: any
 }
 
-const defaultProps = {
-  placement: 'right',
-  placementPrefix: 'bs-popover',
-  trigger: 'click'
-}
 
 export const Popover = (props: Props) => {
-  const { className, innerClassName, ...rest } = props
+  const [popoverOpen, setPopoverOpen] = useState(() => props.isOpen)
+  const targetRef = useRef(null)
+  const { className, innerClassName, toggleRender, toggle, isOpen, ...rest } = props
 
   const classes = generateClassNames(['popover-inner', innerClassName])
   // const sProps = useSpring({
@@ -35,12 +33,37 @@ export const Popover = (props: Props) => {
   //   },
   // })
 
+  const onToggle = useCallback((e) => {
+    console.log('called', popoverOpen)
+    if (toggleRender) setPopoverOpen(!popoverOpen)
+    else if (toggle) toggle(e)
+  }, [popoverOpen])
+
+  const innerRef = useCallback((ref) => {
+    console.log('inner Ref', ref)
+    targetRef.current = ref
+  }, [])
+
   // let classNames = ['collapse', className, mounted ? 'show' : undefined]
+  if (toggleRender) {
+    console.log('hey', popoverOpen)
+    // return toggleElement({ toggle: onToggle })
+    return (
+      <>
+        {toggleRender({ toggle: onToggle, innerRef })}
+        <TooltipPopoverWrapper popperClassName="popover show"
+          innerClassName={classes}
+          isOpen={popoverOpen}
+          target={targetRef}
+          {...rest} />
+      </>
+    )
+  }
 
   return (
-    <TooltipPopoverWrapper popperClassName="popover show" innerClassName={classes} {...rest} />
+    <TooltipPopoverWrapper popperClassName="popover show" toggle={onToggle} isOpen={isOpen} innerClassName={classes} {...rest} />
     // <animated.div>
-      // {children}
+    // {children}
     // </animated.div>
   )
 }

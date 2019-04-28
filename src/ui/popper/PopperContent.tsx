@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom'
 import classNames from 'classnames'
 import { Popper as ReactPopper } from 'react-popper'
 import { getTarget, targetPropType, mapToCssModules, DOMElement, tagPropType } from '../_utils/utils'
-import { Fade } from '../transitions/Fade';
+import { Fade } from '../transitions/Fade'
 // import Fade from './Fade'
 
 interface Props {
@@ -83,7 +83,6 @@ export class PopperContent extends Component<Props, State> {
   }
 
   setTargetNode = (node) => {
-    console.log('node', node)
     if(node) this.targetNode = node
   }
 
