@@ -1,14 +1,14 @@
-import React, { useRef, useState, useEffect, useLayoutEffect, useCallback } from "react"
-import { useSpring, animated, config } from "react-spring"
-import { TooltipPopoverWrapper, Props as TPWProps } from "../popper/TooltipPopoverWrapper"
-import { generateClassNames } from "../_utils"
+import React, { useRef, useState, useEffect, useLayoutEffect, useCallback } from 'react'
+import { useSpring, animated, config } from 'react-spring'
+import { TooltipPopoverWrapper, Props as TPWProps } from '../popper/TooltipPopoverWrapper'
+import { generateClassNames } from '../_utils'
 
-export interface IPopoverProps extends TPWProps {
+export interface ITooltipProps extends TPWProps {
   toggleRender?: (props:{innerRef: any, toggle: any}) => any,
   children?: any,
 }
 
-export const Popover = (props: IPopoverProps) => {
+export const Tooltip = (props: ITooltipProps) => {
   const [popoverOpen, setPopoverOpen] = useState(() => props.isOpen)
   const targetRef = useRef(null)
   const { className, innerClassName, popperClassName, toggleRender, toggle, isOpen, target, ...rest } = props
@@ -50,10 +50,12 @@ export const Popover = (props: IPopoverProps) => {
   )
 }
 
-Popover.defaultProps = {
-  popperClassName: 'popover show',
-  innerClassName: 'popover-inner',
-  placement: 'right',
-  placementPrefix: 'bs-popover',
-  trigger: 'click'
+
+Tooltip.defaultProps = {
+  popperClassName: 'tooltip show',
+  innerClassName: 'tooltip-inner',
+  placement: 'top',
+  // autohide: true,
+  placementPrefix: 'bs-tooltip',
+  trigger: 'click hover focus'
 }

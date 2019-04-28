@@ -44,4 +44,6 @@ export * from './ui/popover/Popover'
 export * from './ui/popover/PopoverBody'
 export * from './ui/popover/PopoverHeader'
 
+export * from './ui/tooltip/Tooltip'
+
 export * from './hooks/useMeasuere'

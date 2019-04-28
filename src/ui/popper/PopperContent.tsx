@@ -5,6 +5,7 @@ import classNames from 'classnames'
 import { Popper as ReactPopper } from 'react-popper'
 import { getTarget, targetPropType, mapToCssModules, DOMElement, tagPropType } from '../_utils/utils'
 import { Fade } from '../transitions/Fade'
+import { generateClassNames } from '../_utils';
 // import Fade from './Fade'
 
 interface Props {
@@ -72,7 +73,7 @@ export class PopperContent extends Component<Props, State> {
   }
 
   componentDidMount(){
-    this.setTargetNode(getTarget(this.props.target))
+    // this.setTargetNode(getTarget(this.props.target))
     this.setState({mounted: true})
   }
 
@@ -132,17 +133,21 @@ export class PopperContent extends Component<Props, State> {
       transition = {},
       ...attrs
     } = this.props
-    const arrowClassName = mapToCssModules(classNames(
-      'arrow',
-      _arrowClassName
-    ), cssModule)
+    // const arrowClassName = mapToCssModules(classNames(
+    //   'arrow',
+    //   _arrowClassName
+    // ), cssModule)
+
+    const arrowClassName = generateClassNames(['arrow', _arrowClassName])
     const placement = this.state.placement || attrs.placement
     //@ts-ignore
     const placementFirstPart = placement.split('-')[0]
-    const popperClassName = mapToCssModules(classNames(
-      _popperClassName,
-      placementPrefix ? `${placementPrefix}-${placementFirstPart}` : placementFirstPart
-    ), this.props.cssModule)
+    // const popperClassName = mapToCssModules(classNames(
+    //   _popperClassName,
+    //   placementPrefix ? `${placementPrefix}-${placementFirstPart}` : placementFirstPart
+    // ), this.props.cssModule)
+    const popperClassName = generateClassNames([_popperClassName, placementPrefix ? `${placementPrefix}-${placementFirstPart}` : placementFirstPart])
+    
 
     const extendedModifiers = {
       offset: { offset },
@@ -162,6 +167,8 @@ export class PopperContent extends Component<Props, State> {
       baseClass: fade ? transition.baseClass : '',
       timeout: fade ? transition.timeout : 0,
     }
+    
+    console.log('llllll', popperClassName, placementFirstPart, this.targetNode, extendedModifiers, placement, 'issssss', this.state)
 
     return (
       <Fade
@@ -188,9 +195,9 @@ export class PopperContent extends Component<Props, State> {
   }
 
   render() {
-    // this.setTargetNode(getTarget(this.props.target))
+    if(this.state.mounted) this.setTargetNode(getTarget(this.props.target))
 
-    if (this.state.isOpen) {
+    if (this.state.mounted && this.state.isOpen) {
       return this.props.container === 'inline' ?
         this.renderChildren() :
         ReactDOM.createPortal((<div ref={this.getRef}>{this.renderChildren()}</div>), this.getContainerNode())

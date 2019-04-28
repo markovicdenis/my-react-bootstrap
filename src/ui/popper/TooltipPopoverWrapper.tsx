@@ -309,6 +309,8 @@ export class TooltipPopoverWrapper extends Component<Props, State> {
 
     const classes = mapToCssModules(innerClassName, cssModule)
 
+    console.log('faaaaadfas', popperClasses, classes)
+
     return (
       <PopperContent
         className={className as string}
