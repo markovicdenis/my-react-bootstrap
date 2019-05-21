@@ -1,6 +1,7 @@
 import React, { useRef, useState, useCallback, memo } from 'react'
 import { _$, delay } from '../_utils'
 import { useSpring, animated } from 'react-spring'
+import { Portal } from '../portal/Portal';
 
 interface Props {
   toggle?: (toggle: any) => any
@@ -24,13 +25,13 @@ export const Modal = memo((props: Props) => {
     config: { mass: 5, tension: 350, friction: 40 }
   })
 
-  let classNames = ['modal show', addClass]
+  let classNames = ['modal s', addClass]
 
   if (fade) classNames.push('fade')
 
   if (show) classNames.push('show')
 
-  const toggleCallBack = useCallback(async () => {
+  const handleToggle = useCallback(async () => {
     if (visible) {
       setShow(false)
       await delay(360)
@@ -44,20 +45,22 @@ export const Modal = memo((props: Props) => {
 
   return (
     <>
-      {toggle && toggle(toggleCallBack)}
-      <div className={className || classNames.join(' ')} ref={modal} tabIndex={-1} role="dialog" aria-hidden={visible} style={{ display: visible ? 'block' : 'none', pointerEvents: 'none' }}>
-        <animated.div className={"modal-dialog" + (vcenter ? ' modal-dialog-centered' : '')}
-          role="document" style={{ opacity, transform }}
-        >
-          <div className="modal-content">
-            {children}
-          </div>
-        </animated.div>
-      </div >
-      {visible &&
-        <animated.div className="modal-backdrop fade" style={{ opacity: opacityLess }} onClick={toggleCallBack}>
-        </animated.div>
-      }
+      {toggle && toggle(handleToggle)}
+      <Portal>
+        <div className={className || classNames.join(' ')} ref={modal} tabIndex={-1} role="dialog" aria-hidden={visible} style={{ display: visible ? 'block' : 'none', pointerEvents: 'none' }}>
+          <animated.div className={"modal-dialog" + (vcenter ? ' modal-dialog-centered' : '')}
+            role="document" style={{ opacity, transform }}
+          >
+            <div className="modal-content">
+              {children}
+            </div>
+          </animated.div>
+        </div >
+        {visible &&
+          <animated.div className="modal-backdrop fade" style={{ opacity: opacityLess }} onClick={handleToggle}>
+          </animated.div>
+        }
+      </Portal>
     </>
   )
 })

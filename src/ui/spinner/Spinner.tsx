@@ -1,20 +1,15 @@
-import React, { CSSProperties } from 'react'
+import React, { CSSProperties, HTMLAttributes } from 'react'
 import { generateClassNames } from '../_utils/generateClassNames'
 import { colorClasses, getColorClass } from '../_utils/colorClasses'
 import { getSizeClass } from '../_utils/sizeClasses'
 
-interface Props {
-  onClick?: () => void
-  children?: any
-  className?: string
+interface Props extends HTMLAttributes<HTMLDivElement> {
   addClass?: string
   grow?: boolean
   visible?: boolean
   hasCloseButton?: boolean
   color?: colorClasses
   size?: 'small'
-  style?: CSSProperties
-
 }
 
 export const Spinner = (props: Props) => {
@@ -31,6 +26,20 @@ export const Spinner = (props: Props) => {
   return (
     <div className={props.className || generateClassNames(classNames)} role="status" {...rest}>
       <span className="sr-only">Loading...</span>
+    </div>
+  )
+}
+
+interface WProps extends Props{
+  wrapperClass?: string
+}
+
+export const WrappedSpinner = (props: WProps) => {
+  const { wrapperClass, ...rest } = props
+
+  return (
+    <div className={wrapperClass}>
+      <Spinner {...rest} />
     </div>
   )
 }

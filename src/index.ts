@@ -36,6 +36,7 @@ export * from './ui/toggle/Toggle'
 // export * from './ui/grid/Main'
 
 export * from './ui/spinner/Spinner'
+export * from './ui/spinner/WrappedSpinner'
 
 export * from './ui/overlays/Overlay'
 export * from './ui/overlays/OverlayWrapper'

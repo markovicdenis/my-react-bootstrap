@@ -23,7 +23,10 @@ export interface ButtonProps {
 
 export const Button = memo((props: ButtonProps) => {
   const mounted = useIsMounted()
-  const { tag = 'button', addClass, block, circle, outline, color, className, children, loading, setRef, size, ...rest } = props
+  const {
+    tag = 'button', addClass, block, circle, outline, color, className, children, loading, setRef, size,
+    active, ...rest
+  } = props
   const { width, opacity }: any = useSpring({
     immediate: loading && !mounted,
     from: { width: 0, opacity: 0 },
@@ -40,6 +43,8 @@ export const Button = memo((props: ButtonProps) => {
   if (size) classNames.push(getSizeClass(size, 'btn'))
 
   if (block) classNames.push('btn-block')
+
+  if (active) classNames.push('active')
 
   return (
     <Tag className={className || generateClassNames(classNames)} {...rest} ref={setRef}>

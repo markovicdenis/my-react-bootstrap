@@ -1,2 +1,8 @@
 {
+  "files.watcherExclude": {
+    "examples/**": true
+  },
+  "search.exclude": {
+    "examples/**": true
+  }
 }

@@ -11,7 +11,7 @@ export interface Props {
   arrowClassName?: string
   popperClassName?: string
   innerClassName?: string
-  placement?: string
+  placement?: 'top' | 'bottom' | 'left' | 'right' | 'auto'
   target?: any
   container?: any
   isOpen?: boolean
@@ -65,7 +65,6 @@ export class TooltipPopoverWrapper extends Component<Props, State> {
   }
 
   componentDidMount() {
-    console.log('triggers is ', this.props.trigger)
     this.updateTarget()
   }
 
@@ -74,7 +73,6 @@ export class TooltipPopoverWrapper extends Component<Props, State> {
   }
 
   onMouseOverTooltipContent = () => {
-    console.log('this mouse in', this.props.trigger)
     if (this.props.trigger) {
       const triggers = this.props.trigger ? this.props.trigger.split(' ') : []
 
@@ -308,8 +306,6 @@ export class TooltipPopoverWrapper extends Component<Props, State> {
     const popperClasses = mapToCssModules(popperClassName, cssModule)
 
     const classes = mapToCssModules(innerClassName, cssModule)
-
-    console.log('faaaaadfas', popperClasses, classes)
 
     return (
       <PopperContent

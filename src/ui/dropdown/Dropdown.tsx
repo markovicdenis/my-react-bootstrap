@@ -67,7 +67,7 @@ export const Dropdown = memo((props: Props) => {
   const { show, item, name, itemClick, handleChange, alignRight, className, addClass,
     toggle, toggleColor, toggleSize, split, items, children, itemsAfter, value } = props
 
-  const dropMenuRef = useRef(null as any)
+  const dropMenuRef = useRef<HTMLDivElement>()
   const [isShown, setIsShown] = useState(show)
   const [activeItem, setActiveItem] = useState(item)
   const [forceUp, setForceUp] = useState(false)
@@ -86,17 +86,17 @@ export const Dropdown = memo((props: Props) => {
 
   if (forceUp) classNames.push('dropup')
 
-  const menuClick = (e: any) => {
-    const dropMenu: HTMLDivElement = dropMenuRef.current
+  const menuClick = useCallback((e: any) => {
+    const dropMenu = dropMenuRef.current
     const target = e.target
-    if (target.parentElement !== dropMenu.parentElement && !dropMenu.contains(target)) {
+    if (dropMenu && target.parentElement !== dropMenu.parentElement && !dropMenu.contains(target)) {
       setIsShown(false)
     }
-  }
+  }, [])
 
   const handleForceUp = () => {
-    let dropMenu: HTMLDivElement = dropMenuRef.current
-    let dropMenuParent: HTMLDivElement = dropMenu.parentElement as any
+    let dropMenu = dropMenuRef.current
+    let dropMenuParent = dropMenu && dropMenu.parentElement
     if (dropMenuParent) {
       let offsetBottom = window.innerHeight - dropMenuParent.getBoundingClientRect().bottom
       let height = 100
@@ -128,7 +128,7 @@ export const Dropdown = memo((props: Props) => {
     }
   }, [])
 
-  const toggleCallback = useCallback(() => {
+  const handleToggle = useCallback(() => {
     setIsShown(!isShown)
   }, [isShown])
 
@@ -158,9 +158,9 @@ export const Dropdown = memo((props: Props) => {
   return (
     <div className={className || generateClassNames(classNames)}>
       {toggle ?
-        toggle(null, toggleCallback, activeItem) :
+        toggle(null, handleToggle, activeItem) :
         (
-          <DropdownToggle onClick={toggleCallback} color={toggleColor} size={toggleSize}>
+          <DropdownToggle onClick={handleToggle} color={toggleColor} size={toggleSize}>
             {getValue()}
           </DropdownToggle>
         )
@@ -168,8 +168,11 @@ export const Dropdown = memo((props: Props) => {
 
       <animated.div
         className={generateClassNames(dropdownClassNames)}
-        style={{ pointerEvents: isShown ? 'auto' : 'none', display: isShown ? 'block' : 'none', ...styleProps }}
-        ref={dropMenuRef}
+        style={{
+          pointerEvents: isShown ? 'auto' : 'none',
+          display: isShown ? 'block' : 'none', ...styleProps
+        }}
+        ref={dropMenuRef as any}
       >
         {items && renderDropdownItems(items, activeItem, value, onItemClick)}
         {children}

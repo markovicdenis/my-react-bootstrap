@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 // import ReactDOM from 'react-dom'
 import { isBrowser } from '../_utils'
+import ReactDOM from 'react-dom'
 
 interface Props {
   node?: Element
@@ -35,11 +36,11 @@ export class Portal extends Component<Props>{
       }
     }
 
-    return <div></div>
+    // return <div></div>
 
-    // return ReactDOM.createPortal(
-    // 	this.props.children,
-    // 	this.props.node || this.defaultNode
-    // )
+    return ReactDOM.createPortal(
+      this.props.children,
+      this.props.node || this.defaultNode
+    )
   }
 }

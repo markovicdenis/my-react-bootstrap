@@ -168,8 +168,6 @@ export class PopperContent extends Component<Props, State> {
       timeout: fade ? transition.timeout : 0,
     }
     
-    console.log('llllll', popperClassName, placementFirstPart, this.targetNode, extendedModifiers, placement, 'issssss', this.state)
-
     return (
       <Fade
         {...popperTransition}

@@ -1,4 +1,4 @@
-import isFunction from 'lodash/isfunction'
+// import isFunction from 'lodash/isfunction'
 import PropTypes from 'prop-types'
 
 // https://github.com/twbs/bootstrap/blob/v4.0.0-alpha.4/js/src/modal.js#L436-L443
@@ -228,11 +228,10 @@ export function isReactRefObj(target: any) {
 }
 
 export function findDOMElements(target: any) {
-  console.log(target)
   if (isReactRefObj(target)) {
     return target.current
   }
-  if (isFunction(target)) {
+  if (typeof target === 'function') {
     return target()
   }
   if (typeof target === 'string' && canUseDOM) {
