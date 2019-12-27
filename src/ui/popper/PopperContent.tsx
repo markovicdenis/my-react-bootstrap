@@ -1,11 +1,10 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 import ReactDOM from 'react-dom'
-import classNames from 'classnames'
+// import classNames from 'classnames'
 import { Popper as ReactPopper } from 'react-popper'
-import { getTarget, targetPropType, mapToCssModules, DOMElement, tagPropType } from '../_utils/utils'
+import { getTarget } from '../_utils/utils'
 import { Fade } from '../transitions/Fade'
-import { generateClassNames } from '../_utils';
+import { generateClassNames } from '../_utils'
 // import Fade from './Fade'
 
 interface Props {

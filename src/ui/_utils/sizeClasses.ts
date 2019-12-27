@@ -1,6 +1,7 @@
-export type sizeClasses = 'small' | 'large'
+export type sizeClasses = 'small' | 'large' | 'xl'
 
 const mapping :any= {
+  xl: 'xl',
   small: 'sm',
   large: 'lg',
   none: ''

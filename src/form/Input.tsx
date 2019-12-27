@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState, useCallback } from 'react'
+import React, { ChangeEvent, useCallback, HTMLProps } from 'react'
 import { generateClassNames } from '../ui/_utils/generateClassNames'
 import { getSizeClass } from '../ui/_utils/sizeClasses'
 import { FormGroupFactory } from './FormGroupFactory'
@@ -26,7 +26,7 @@ type State = {
 
 
 
-export const Input = (props: IBasicInputProps) => {
+export const Input = (props: IBasicInputProps & HTMLProps<HTMLInputElement>) => {
   const { setRef, onChange, handleChange, type = 'text', addClass, color, inputSize, className, children, onClick, loading, value, ...rest } = props
   const classNames: any[] = ['form-control', addClass]
 

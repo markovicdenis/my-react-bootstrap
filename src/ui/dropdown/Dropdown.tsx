@@ -5,7 +5,7 @@ import { sizeClasses } from '../_utils/sizeClasses'
 import { useSpring, animated, config } from 'react-spring'
 
 type DropdownItem = {
-  label: any, value?: any, header?: boolean | 'h5' | 'h6',
+  label?: any, value?: any, header?: boolean | 'h5' | 'h6',
   divider?: boolean, disabled?: boolean, active?: boolean, href?: string
 }
 

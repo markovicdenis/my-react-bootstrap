@@ -32,10 +32,13 @@ export const Spinner = (props: Props) => {
 
 interface WProps extends Props{
   wrapperClass?: string
+  nullOnHidden?: boolean
 }
 
 export const WrappedSpinner = (props: WProps) => {
-  const { wrapperClass, ...rest } = props
+  const { wrapperClass, nullOnHidden, ...rest } = props
+
+  if(nullOnHidden && !props.visible) return null
 
   return (
     <div className={wrapperClass}>

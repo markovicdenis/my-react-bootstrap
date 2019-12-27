@@ -17,7 +17,7 @@ export function getScrollbarWidth() {
 }
 
 export function setScrollbarWidth(padding: any) {
-  document.body.style.paddingRight = padding > 0 ? `${padding}px` : null
+  document.body.style.paddingRight = padding > 0 ? `${padding}px` : '0'
 }
 
 export function isBodyOverflowing() {

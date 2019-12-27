@@ -1,10 +1,12 @@
-import React, { useRef, useState, useCallback, memo } from 'react'
-import { _$, delay } from '../_utils'
+import React, { useRef, useState, useCallback, memo, useEffect, forwardRef, useImperativeHandle } from 'react'
+import { _$, delay, generateClassNames } from '../_utils'
 import { useSpring, animated } from 'react-spring'
 import { Portal } from '../portal/Portal';
+import { sizeClasses, getSizeClass } from '../_utils/sizeClasses';
 
 interface Props {
   toggle?: (toggle: any) => any
+  ref?: any
   className?: string
   addClass?: string
   backdrop?: boolean
@@ -12,24 +14,27 @@ interface Props {
   vcenter?: boolean
   show?: boolean
   children?: any
+  size?: sizeClasses
 }
 
-export const Modal = memo((props: Props) => {
-  const { addClass, className, vcenter, show: originalShow, fade, toggle, children } = props
+export const Modal = forwardRef<{toggle: ()=>any}, Props>((props: Props, ref) => {
+  const { addClass, className, vcenter, show: originalShow, fade, toggle, size, children } = props
   const modal = useRef(null)
   const [show, setShow] = useState(originalShow)
   const [visible, setVisible] = useState(originalShow)
   const { opacityLess, opacity, transform }: any = useSpring({
-    from: { opacityLess: 0, opacity: 0, transform: 'translate3d(20px,0,0)' },
-    to: { opacityLess: show ? 0.5 : 0, opacity: show ? 1 : 0, transform: `translate3d(${show ? 0 : 20}px,0,0)` },
+    from: { opacityLess: 0, opacity: 0, transform: 'translate3d(0,20px,0)' },
+    to: { opacityLess: show ? 0.5 : 0, opacity: show ? 1 : 0, transform: `translate3d(0,${show ? 0 : 20}px,0)` },
     config: { mass: 5, tension: 350, friction: 40 }
   })
 
   let classNames = ['modal s', addClass]
-
   if (fade) classNames.push('fade')
-
   if (show) classNames.push('show')
+
+  let dialogClassNames = ['modal-dialog']
+  if (vcenter) dialogClassNames.push('modal-dialog-centered')
+  if (size) dialogClassNames.push(getSizeClass(size, 'modal'))
 
   const handleToggle = useCallback(async () => {
     if (visible) {
@@ -43,12 +48,18 @@ export const Modal = memo((props: Props) => {
     }
   }, [visible, show])
 
+  useImperativeHandle(ref, () => {
+    return {
+      toggle: handleToggle
+    }
+  })
+
   return (
     <>
       {toggle && toggle(handleToggle)}
       <Portal>
-        <div className={className || classNames.join(' ')} ref={modal} tabIndex={-1} role="dialog" aria-hidden={visible} style={{ display: visible ? 'block' : 'none', pointerEvents: 'none' }}>
-          <animated.div className={"modal-dialog" + (vcenter ? ' modal-dialog-centered' : '')}
+        <div className={className || generateClassNames(classNames)} ref={modal} tabIndex={-1} role="dialog" aria-hidden={visible} style={{ display: visible ? 'block' : 'none', pointerEvents: 'none' }}>
+          <animated.div className={generateClassNames(dialogClassNames)}
             role="document" style={{ opacity, transform }}
           >
             <div className="modal-content">
