@@ -23,12 +23,12 @@ export interface IBasicInputAdditional {
   [key: string]: any
 }
 
-export function basicInput<P={}, S=HTMLInputElement>(additionalProps: IBasicInputAdditional, useColor?: { prefix: string, suffix: string }) {
+export function basicInput<P = {}, S = HTMLInputElement>(additionalProps: IBasicInputAdditional, useColor?: { prefix: string, suffix: string }) {
   // interface NewProps extends IBasicElementProps
   return (props: IBasicInputProps & P & InputHTMLAttributes<S>) => {
     const { defaultClass, defaultTag = 'input', defaultType, ...restAdditional } = additionalProps
     const { setRef, onChange, handleChange, tag = defaultTag, type = defaultType, addClass, color, inputSize, className, children, onClick, loading, ...rest } = props as IBasicInputProps
-    const Tag : any = tag
+    const Tag: any = tag
     const classNames: any[] = [defaultClass, addClass]
 
     if (useColor && color) classNames.push(getColorClass(color, useColor.prefix, useColor.suffix))

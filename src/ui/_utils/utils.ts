@@ -1,4 +1,3 @@
-// import isFunction from 'lodash/isfunction'
 import PropTypes from 'prop-types'
 
 // https://github.com/twbs/bootstrap/blob/v4.0.0-alpha.4/js/src/modal.js#L436-L443
@@ -53,6 +52,7 @@ export function setGlobalCssModule(cssModule: any) {
 
 export function mapToCssModules(className = '', cssModule = globalCssModule) {
   if (!cssModule) return className
+
   return className
     .split(' ')
     .map(c => cssModule[c] || c)
@@ -86,6 +86,7 @@ export function pick(obj: any, keys: string[]) {
     key = pickKeys[length]
     result[key] = obj[key]
   }
+
   return result
 }
 
@@ -151,9 +152,9 @@ export const tagPropType = PropTypes.oneOfType([
 // These are all setup to match what is in the bootstrap _variables.scss
 // https://github.com/twbs/bootstrap/blob/v4-dev/scss/_variables.scss
 export const TransitionTimeouts = {
-  Fade: 150, // $transition-fade
+  Fade:     150, // $transition-fade
   Collapse: 350, // $transition-collapse
-  Modal: 300, // $modal-transition
+  Modal:    300, // $modal-transition
   Carousel: 600, // $carousel-transition
 }
 
@@ -178,22 +179,22 @@ export const TransitionPropTypeKeys = [
 
 export const TransitionStatuses = {
   ENTERING: 'entering',
-  ENTERED: 'entered',
-  EXITING: 'exiting',
-  EXITED: 'exited',
+  ENTERED:  'entered',
+  EXITING:  'exiting',
+  EXITED:   'exited',
 }
 
 export const keyCodes = {
-  esc: 27,
+  esc:   27,
   space: 32,
   enter: 13,
-  tab: 9,
-  up: 38,
-  down: 40,
-  home: 36,
-  end: 35,
-  n: 78,
-  p: 80,
+  tab:   9,
+  up:    38,
+  down:  40,
+  home:  36,
+  end:   35,
+  n:     78,
+  p:     80,
 }
 
 export const PopperPlacements = [
@@ -224,6 +225,7 @@ export function isReactRefObj(target: any) {
   if (target && typeof target === 'object') {
     return 'current' in target
   }
+
   return false
 }
 
@@ -244,8 +246,10 @@ export function findDOMElements(target: any) {
         `The target '${target}' could not be identified in the dom, tip: check spelling`
       )
     }
+
     return selection
   }
+
   return target
 }
 
@@ -253,6 +257,7 @@ export function isArrayOrNodeList(els: any) {
   if (els === null) {
     return false
   }
+
   return Array.isArray(els) || (canUseDOM && typeof els.length === 'number')
 }
 
@@ -261,6 +266,7 @@ export function getTarget(target: any) {
   if (isArrayOrNodeList(els)) {
     return els[0]
   }
+
   return els
 }
 

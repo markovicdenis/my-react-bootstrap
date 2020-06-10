@@ -19,5 +19,5 @@ export const useMeasure = (parentRef) => {
   // if (parentRef) {
   //   return bounds
   // }
-  return [bounds, {ref}] as [typeof bounds, {ref: any }]
+  return [bounds, { ref }] as [typeof bounds, { ref: any }]
 }

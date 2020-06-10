@@ -35,7 +35,7 @@ export const Input = (props: IBasicInputProps & HTMLProps<HTMLInputElement>) => 
   const handleChangeFun = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     if (onChange) onChange(e)
     if (handleChange) handleChange(e, props.name, e.target.value, type)
-  },[])
+  }, [])
 
   return (
     <input className={className || generateClassNames(classNames)} ref={setRef} type={type} onChange={handleChangeFun} value={value} {...rest}>

@@ -46,14 +46,14 @@ export const Fade = (props: Props) => {
 
   const Tag: any = tag
   const classes = generateClassNames([className, baseClass])
-  
+
   const { opacity, display }: any = useSpring({
     immediate: true,
     from: { opacity: 0 },
-    to:  async (next, cancel) => {
+    to: async (next, cancel) => {
       await delay(100)
-      await next({opacity: isActive ? 1 : 0})
-      if(!isActive && props.onExited ) props.onExited()
+      await next({ opacity: isActive ? 1 : 0 })
+      if (!isActive && props.onExited) props.onExited()
     },
     config: config.gentle,
   })

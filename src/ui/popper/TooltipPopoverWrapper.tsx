@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { getTarget, mapToCssModules } from '../_utils/utils'
-import { PopperContent } from './PopperContent'
+import { PopperContent, PopperModifiers } from './PopperContent'
 
 function isInDOMSubtree(element, subtreeRoot) {
   return subtreeRoot && (element === subtreeRoot || subtreeRoot.contains(element))
@@ -23,8 +23,8 @@ export interface Props {
   autohide?: boolean
   placementPrefix?: string
   delay?: { show: number, hide: number } | number
-  modifiers?: any
-  offset?: number | string
+  modifiers?: PopperModifiers
+  offset?: [number, number]
   innerRef?: any
   trigger?: string
   fade?: boolean
@@ -176,7 +176,19 @@ export class TooltipPopoverWrapper extends Component<Props, State> {
   handleDocumentClick = (e) => {
     const triggers = this.props.trigger ? this.props.trigger.split(' ') : []
 
-    if (triggers.indexOf('legacy') > -1 && (this.props.isOpen || isInDOMSubtree(e.target, this._target))) {
+    if (triggers.indexOf('special') > -1) {
+      if (this._hideTimeout) {
+        this.clearHideTimeout()
+      }
+      // this.hideWithDelay(e)
+      if (this.props.isOpen && !e.target.closest('.popover')) {
+        console.log('calling hide')
+        this.hideWithDelay(e)
+      } else if (!this.props.isOpen) {
+        console.log('calling show')
+        // this.showWithDelay(e)
+      }
+    } else if (triggers.indexOf('legacy') > -1 && (this.props.isOpen || isInDOMSubtree(e.target, this._target))) {
       if (this._hideTimeout) {
         this.clearHideTimeout()
       }
@@ -202,7 +214,7 @@ export class TooltipPopoverWrapper extends Component<Props, State> {
     if (this.props.trigger) {
       let triggers = this.props.trigger ? this.props.trigger.split(' ') : []
       if (triggers.indexOf('manual') === -1) {
-        if (triggers.indexOf('click') > -1 || triggers.indexOf('legacy') > -1) {
+        if (triggers.indexOf('click') > -1 || triggers.indexOf('legacy') > -1 || triggers.indexOf('special') > -1) {
           document.addEventListener('click', this.handleDocumentClick, true)
         }
 
@@ -309,35 +321,34 @@ export class TooltipPopoverWrapper extends Component<Props, State> {
 
     return (
       <PopperContent
-        className={className as string}
-        target={target}
-        isOpen={isOpen}
-        hideArrow={hideArrow}
-        boundariesElement={boundariesElement}
-        placement={placement}
-        placementPrefix={placementPrefix}
         arrowClassName={arrowClassName}
-        popperClassName={popperClasses}
+        boundariesElement={boundariesElement}
+        className={className as string}
         container={container}
-        modifiers={modifiers}
-        offset={offset}
         cssModule={cssModule}
-        onClosed={this.onClosed}
         fade={fade}
         flip={flip}
+        hideArrow={hideArrow}
+        isOpen={isOpen}
+        modifiers={modifiers}
+        offset={offset}
+        placement={placement}
+        placementPrefix={placementPrefix}
+        popperClassName={popperClasses}
+        target={target}
+        onClosed={this.onClosed}
       >
         <div
           {...attributes}
           ref={this.getRef}
+          aria-hidden={isOpen}
           className={classes}
           role="tooltip"
-          aria-hidden={isOpen}
-          onMouseOver={this.onMouseOverTooltipContent}
-          onMouseLeave={this.onMouseLeaveTooltipContent}
           onKeyDown={this.onEscKeyDown}
+          onMouseLeave={this.onMouseLeaveTooltipContent}
+          onMouseOver={this.onMouseOverTooltipContent}
         />
       </PopperContent>
     )
   }
-
 }

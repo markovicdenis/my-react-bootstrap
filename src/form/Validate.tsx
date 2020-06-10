@@ -1,6 +1,5 @@
 import React, { Component, HtmlHTMLAttributes } from 'react'
-import get from 'lodash/get'
-import { generateClassNames } from '../ui/_utils'
+import { generateClassNames, get } from '../ui/_utils'
 
 type FProps<E extends {}> = E & {
   wId?: string
@@ -28,7 +27,7 @@ interface Props {
 
 export const Validate = (props: Props & HtmlHTMLAttributes<HTMLDivElement>) => {
   const { tag = 'div', className, addClass, validFeedback, invalidFeedback, isValid, children, ...rest } = props
-  const Tag:any = tag
+  const Tag: any = tag
   const classNames: any[] = ['form-group', addClass]
   if (typeof isValid === 'boolean') {
     if (isValid) classNames.push('is-valid')

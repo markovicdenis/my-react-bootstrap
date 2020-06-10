@@ -10,8 +10,8 @@ interface Props {
   addClass?: string
   round?: boolean
   style?: CSSProperties
-  onChange?: (e:ChangeEvent<HTMLInputElement>) => void
-  handleChange?: (e:ChangeEvent<HTMLInputElement>, name?: string, value?: any) => void
+  onChange?: (e: ChangeEvent<HTMLInputElement>) => void
+  handleChange?: (e: ChangeEvent<HTMLInputElement>, name?: string, value?: any) => void
 
   [key: string]: any
 }
@@ -22,16 +22,19 @@ export const Toggle = (props: Props) => {
   let classNames: any[] = [className, addClass]
   // if (round) classNames.push('switch-round')
 
-  const change = (e: ChangeEvent<HTMLInputElement>) =>{
+  const change = (e: ChangeEvent<HTMLInputElement>) => {
     // console.log(e.target.checked)
+    console.log(checked)
     if (onChange) onChange(e)
-    else if(handleChange) handleChange(e, name, !checked)
+    else if (handleChange) handleChange(e, name, !checked)
   }
+
+  console.log('.......', checked)
 
   return (
     <label className={generateClassNames(classNames)} style={style}>
-      <input type="checkbox" checked={checked} onChange={change}/>
-      <span className={generateClassNames(['slider', round? 'round': undefined])}></span>
+      <input type="checkbox" checked={checked} onChange={change} />
+      <span className={generateClassNames(['slider', round ? 'round' : undefined])}></span>
     </label>
   )
 }

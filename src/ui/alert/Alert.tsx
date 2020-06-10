@@ -64,7 +64,7 @@ export class Alert extends Component<Props, State>{
     if (this.props.onCloseClick) this.props.onCloseClick()
     else {
       await this.hide()
-      if(this.props.onClick) this.props.onClick()
+      if (this.props.onClick) this.props.onClick()
     }
   }
 

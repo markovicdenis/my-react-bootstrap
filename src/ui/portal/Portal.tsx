@@ -22,15 +22,15 @@ export class Portal extends Component<Props>{
     if (!isBrowser()) return null
 
     if (!this.props.node && !this.defaultNode) {
-      if(this.props.nodeId){
+      if (this.props.nodeId) {
         let elem = document.getElementById(this.props.nodeId)
-        if(!elem) {
+        if (!elem) {
           elem = document.createElement('div')
           elem.id = this.props.nodeId
           document.body.appendChild(elem)
         }
         this.defaultNode = elem
-      }else{
+      } else {
         this.defaultNode = document.createElement('div')
         document.body.appendChild(this.defaultNode)
       }

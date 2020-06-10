@@ -29,17 +29,18 @@ export const Collapse = (props: Props) => {
   const dRef = useRef<any>()
   const dProps = useSpring({
     immediate: show && !mounted,
-    config: {duration: 5},
-    from: {display: show? 'block' : 'none'},
+    config: { duration: 1 },
+    // config: config.gentle,
+    from: { display: show ? 'block' : 'none', transform: 'translate3d(0,0,0)' },
     to: {
-      display: show ? 'block' : 'none'
+      display: show ? 'block' : 'none', transform: 'inherit'
     },
     ref: dRef
   })
 
-  let classNames = ['collapse', className ]//, show ? 'show' : undefined]
+  let classNames = ['collapse', className]//, show ? 'show' : undefined]
 
-  useChain(show? [dRef, sRef]:[sRef, dRef])
+  useChain(show ? [dRef, sRef] : [sRef, dRef])
 
   return (
     <animated.div className={classNames.join(' ')} style={{ ...sProps, ...dProps }}>

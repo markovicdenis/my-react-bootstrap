@@ -22,10 +22,10 @@ export class OverlayWrapper extends PureComponent<Props>{
     const Tag: any = `${tag}`
     const classNames: any[] = [addClass]
 
-    if(loading) classNames.push('overlay-wrapper')
+    if (loading) classNames.push('overlay-wrapper')
 
     return (
-      <Tag className={className || generateClassNames(classNames)} {...rest} style={{position: 'relative'}}>
+      <Tag className={className || generateClassNames(classNames)} {...rest} style={{ position: 'relative' }}>
         {this.props.children}
       </Tag>
     )

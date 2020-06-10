@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 // import classNames from 'classnames'
-import { Popper as ReactPopper } from 'react-popper'
+import { Popper as ReactPopper, Modifier } from 'react-popper'
 import { getTarget } from '../_utils/utils'
 import { Fade } from '../transitions/Fade'
 import { generateClassNames } from '../_utils'
+
+export type PopperModifiers = Partial<Modifier<any, any>>[]
 // import Fade from './Fade'
 
 interface Props {
@@ -18,12 +20,12 @@ interface Props {
   tag?: string
   isOpen?: boolean
   cssModule?: any
-  offset?: number | string
+  offset?: [number, number]
   fallbackPlacement?: string | string[]
   flip?: boolean
   container?: 'body' | 'inline'
   target?: any
-  modifiers?: any
+  modifiers?: PopperModifiers
   boundariesElement: any
   onClosed?: any
   fade?: boolean
@@ -45,7 +47,7 @@ export class PopperContent extends Component<Props, State> {
     placement: 'auto',
     hideArrow: false,
     isOpen: false,
-    offset: 0,
+    offset: [0, 20],
     fallbackPlacement: 'flip',
     flip: true,
     container: 'body',
@@ -71,9 +73,9 @@ export class PopperContent extends Component<Props, State> {
     else return null
   }
 
-  componentDidMount(){
+  componentDidMount() {
     // this.setTargetNode(getTarget(this.props.target))
-    this.setState({mounted: true})
+    this.setState({ mounted: true })
   }
 
   componentDidUpdate() {
@@ -83,7 +85,7 @@ export class PopperContent extends Component<Props, State> {
   }
 
   setTargetNode = (node) => {
-    if(node) this.targetNode = node
+    if (node) this.targetNode = node
   }
 
   getTargetNode = () => {
@@ -146,8 +148,9 @@ export class PopperContent extends Component<Props, State> {
     //   placementPrefix ? `${placementPrefix}-${placementFirstPart}` : placementFirstPart
     // ), this.props.cssModule)
     const popperClassName = generateClassNames([_popperClassName, placementPrefix ? `${placementPrefix}-${placementFirstPart}` : placementFirstPart])
-    
 
+    // TODO: fix modifiers with new version of popper (those below are not used)
+    // TODO: remove the -0.3rem positioning on arrow style
     const extendedModifiers = {
       offset: { offset },
       flip: { enabled: flip, behavior: fallbackPlacement },
@@ -166,24 +169,28 @@ export class PopperContent extends Component<Props, State> {
       baseClass: fade ? transition.baseClass : '',
       timeout: fade ? transition.timeout : 0,
     }
-    
+
     return (
       <Fade
         {...popperTransition}
         {...attrs}
         in={isOpen}
-        onExited={this.onClosed}
         tag={tag}
+        onExited={this.onClosed}
       >
         <ReactPopper
-          referenceElement={this.targetNode}
-          modifiers={extendedModifiers}
+          // modifiers={extendedModifiers}
+          modifiers={[
+            { name: 'offset', enabled: true, options: { offset } },
+            { name: 'sfs', enabled: true, phase: 'afterMain', fn: (args) => this.handlePlacementChange(args.state) }, { name: 'preventOverflow', options: { boundary: boundariesElement ?? 'clippingParents' } }
+          ]}
           placement={placement as any}
+          referenceElement={this.targetNode}
         >
           {({ ref, style, placement, arrowProps }) => (
-            <div ref={ref} style={style} className={popperClassName} x-placement={placement}>
+            <div ref={ref} className={popperClassName} style={style} x-placement={placement}>
               {children}
-              {!hideArrow && <span ref={arrowProps.ref} className={arrowClassName} style={arrowProps.style} />}
+              {!hideArrow && <span ref={arrowProps.ref} className={arrowClassName} style={{ ...arrowProps.style, left: '-0.3rem' }} />}
             </div>
           )}
         </ReactPopper>
@@ -192,7 +199,7 @@ export class PopperContent extends Component<Props, State> {
   }
 
   render() {
-    if(this.state.mounted) this.setTargetNode(getTarget(this.props.target))
+    if (this.state.mounted) this.setTargetNode(getTarget(this.props.target))
 
     if (this.state.mounted && this.state.isOpen) {
       return this.props.container === 'inline' ?

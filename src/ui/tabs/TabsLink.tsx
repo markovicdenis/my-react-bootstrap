@@ -22,7 +22,7 @@ export class TabsLink extends PureComponent<Props>{
 
     return (
       <li className={classNames.filter(n => n).join(' ')}>
-        <a className={classNamesLink.filter(n => n).join(' ')} href="#" 
+        <a className={classNamesLink.filter(n => n).join(' ')} href="#"
           onClick={this.props.onClick}
           role="tab"
           aria-selected={this.props.active}

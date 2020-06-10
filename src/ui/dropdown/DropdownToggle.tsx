@@ -3,6 +3,7 @@ import { ButtonProps as Props, Button } from '../buttons/Button'
 import { generateClassNames } from '../_utils/generateClassNames'
 
 interface NProps extends Props {
+  addClass?: string
   split?: boolean
   dataTogle?: boolean
 }

@@ -4,7 +4,7 @@ import { TooltipPopoverWrapper, Props as TPWProps } from '../popper/TooltipPopov
 import { generateClassNames } from '../_utils'
 
 export interface ITooltipProps extends TPWProps {
-  toggleRender?: (props:{innerRef: any, toggle: any}) => any,
+  toggleRender?: (props: { innerRef: any, toggle: any }) => any,
   children?: any,
 }
 
@@ -15,7 +15,7 @@ export const Tooltip = (props: ITooltipProps) => {
 
   const isNotContolled = Boolean(typeof toggle === 'undefined' && typeof isOpen === "undefined")
   const classes = generateClassNames([innerClassName])
- 
+
   const onToggle = useCallback((e) => {
     if (toggleRender || isNotContolled) setPopoverOpen(!popoverOpen)
     else if (toggle) toggle(e)
@@ -32,7 +32,7 @@ export const Tooltip = (props: ITooltipProps) => {
         <TooltipPopoverWrapper popperClassName={popperClassName}
           innerClassName={classes}
           isOpen={popoverOpen}
-          target={toggleRender ? targetRef: target}
+          target={toggleRender ? targetRef : target}
           toggle={onToggle}
           {...rest} />
       </>
@@ -42,8 +42,8 @@ export const Tooltip = (props: ITooltipProps) => {
   return (
     <TooltipPopoverWrapper
       popperClassName={popperClassName}
-      toggle={onToggle} 
-      isOpen={isOpen} 
+      toggle={onToggle}
+      isOpen={isOpen}
       target={target}
       innerClassName={classes}
       {...rest} />

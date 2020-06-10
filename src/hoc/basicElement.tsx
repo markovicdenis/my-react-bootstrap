@@ -21,7 +21,7 @@ export interface IBasicElementAdditional {
   [key: string]: any
 }
 
-export function basicElement<P={}, S=HTMLDivElement>(additionalProps: IBasicElementAdditional, useColor?: { prefix: string, suffix: string }) {
+export function basicElement<P = {}, S = HTMLDivElement>(additionalProps: IBasicElementAdditional, useColor?: { prefix: string, suffix: string }) {
   // interface NewProps extends IBasicElementProps
   return (props: IBasicElementProps & HTMLAttributes<S>) => {
     const { defaultClass, defaultTag = 'div', ...restAdditional } = additionalProps

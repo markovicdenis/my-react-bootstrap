@@ -19,7 +19,7 @@ export class TabsHeader extends PureComponent<Props>{
     let classNames: string[] = ['nav']
     if (this.props.pills) classNames.push('nav-pills')
     if (this.props.tabs) classNames.push('nav-tabs')
-    if (this.props.secondary){
+    if (this.props.secondary) {
       if (this.props.pills) classNames.push('nav-pills--secondary')
       if (this.props.tabs) classNames.push('nav-tabs--secondary')
 

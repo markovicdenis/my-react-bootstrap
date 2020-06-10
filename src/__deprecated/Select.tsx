@@ -1,8 +1,7 @@
 import React from 'react'
-import { FormGroupFactory } from './FormGroupFactory'
 import Select, { Props as SelectProps } from 'react-select/base'
 import Async, { Props as AsyncProps } from 'react-select/async'
-import { Props as CreatableProps} from 'react-select/creatable'
+import { Props as CreatableProps } from 'react-select/creatable'
 import AsyncCreatable from 'react-select/async-creatable'
 
 const customStyles = {

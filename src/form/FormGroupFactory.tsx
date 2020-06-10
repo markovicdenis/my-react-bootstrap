@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
-import get from 'lodash/get'
-import { generateClassNames } from '../ui/_utils'
+import { generateClassNames, get } from '../ui/_utils'
 
 export type FProps<E extends {}> = E & {
   wId?: string

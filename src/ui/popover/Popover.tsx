@@ -1,10 +1,9 @@
-import React, { useRef, useState, useEffect, useLayoutEffect, useCallback } from "react"
-import { useSpring, animated, config } from "react-spring"
-import { TooltipPopoverWrapper, Props as TPWProps } from "../popper/TooltipPopoverWrapper"
+import React, { useCallback, useRef, useState } from "react"
+import { Props as TPWProps, TooltipPopoverWrapper } from "../popper/TooltipPopoverWrapper"
 import { generateClassNames } from "../_utils"
 
 export interface IPopoverProps extends TPWProps {
-  toggleRender?: (props:{innerRef?: any, toggle?: any, isOpen?: boolean}) => any,
+  toggleRender?: (props: { innerRef?: any, toggle?: any, isOpen?: boolean }) => any,
   children?: any,
 }
 
@@ -30,25 +29,27 @@ export const Popover = (props: IPopoverProps) => {
   if (toggleRender || isNotContolled) {
     return (
       <>
-        {toggleRender && toggleRender({ innerRef, toggle: (noFocus ? onToggle:()=>{}) , isOpen:popoverOpen })}
-        <TooltipPopoverWrapper popperClassName={popperClassName}
-          innerClassName={classes}
+        {toggleRender && toggleRender({ innerRef, toggle: (noFocus ? onToggle : () => { }), isOpen: popoverOpen })}
+        <TooltipPopoverWrapper innerClassName={classes}
           isOpen={popoverOpen}
-          target={toggleRender ? targetRef: target}
+          popperClassName={popperClassName}
+          target={toggleRender ? targetRef : target}
           toggle={onToggle}
-          {...rest} />
+          {...rest}
+        />
       </>
     )
   }
 
   return (
     <TooltipPopoverWrapper
-      popperClassName={popperClassName}
-      toggle={onToggle} 
-      isOpen={isOpen} 
-      target={target}
       innerClassName={classes}
-      {...rest} />
+      isOpen={isOpen}
+      popperClassName={popperClassName}
+      target={target}
+      toggle={onToggle}
+      {...rest}
+    />
   )
 }
 

@@ -14,9 +14,9 @@ interface Props {
 }
 
 export const Overlay = memo((props: Props) => {
-  const { addClass, className, children, visible, center=true, ...rest } = props
+  const { addClass, className, children, visible, center = true, ...rest } = props
   const [] = useState(visible)
-  const { opacity }:any = useSpring({
+  const { opacity }: any = useSpring({
     from: { opacity: 0 },
     to: { opacity: visible ? 1 : 0 },
     config: config.gentle

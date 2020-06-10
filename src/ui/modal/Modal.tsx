@@ -17,7 +17,7 @@ interface Props {
   size?: sizeClasses
 }
 
-export const Modal = forwardRef<{toggle: ()=>any}, Props>((props: Props, ref) => {
+export const Modal = forwardRef<{ toggle: () => any }, Props>((props: Props, ref) => {
   const { addClass, className, vcenter, show: originalShow, fade, toggle, size, children } = props
   const modal = useRef(null)
   const [show, setShow] = useState(originalShow)

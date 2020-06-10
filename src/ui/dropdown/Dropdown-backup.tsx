@@ -12,7 +12,7 @@ interface Props {
   addClass?: string
   show?: boolean
   items?: DropdownItem[]
-  itemsTag?: 'a'|'button'
+  itemsTag?: 'a' | 'button'
   itemsAfter?: DropdownItem[]
   itemClick?: (item: any) => void
   children?: any
@@ -63,16 +63,16 @@ export class Dropdown extends Component<Props, State>{
     return items.map((item: DropdownItem, index: number) => {
       let Tag: any = 'a'
       let className = 'dropdown-item'
-      const {active, disabled, label, divider, header, ...rest} = item
+      const { active, disabled, label, divider, header, ...rest } = item
       if (divider) return <div key={`divider${index}`} className="dropdown-divider"></div>
       if (header) {
         Tag = typeof header === 'string' ? header : 'h6'
         return <Tag key={`header${label}`}>{label}</Tag>
       }
-      if(disabled) className+= ' disabled'
-      if(active) className+= ' active'
+      if (disabled) className += ' disabled'
+      if (active) className += ' active'
 
-      if(Tag === 'a' && !item.href) rest.href = '#'
+      if (Tag === 'a' && !item.href) rest.href = '#'
       // if(Tag === 'button') rest.type='button'
 
       return <Tag key={`${label}$`} className={className} onClick={() => this.itemClick(item)} {...rest}>{item.label}</Tag>

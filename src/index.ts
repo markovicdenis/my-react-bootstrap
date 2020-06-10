@@ -43,6 +43,7 @@ export * from './ui/overlays/OverlayWrapper'
 export * from './ui/popover/Popover'
 export * from './ui/popover/PopoverBody'
 export * from './ui/popover/PopoverHeader'
+export * from './ui/popover/usePopover'
 
 export * from './ui/tooltip/Tooltip'
 

@@ -3,6 +3,7 @@ import { _$, isBrowser, generateClassNames, colorClasses, delay } from '../_util
 import { DropdownToggle } from './DropdownToggle'
 import { sizeClasses } from '../_utils/sizeClasses'
 import { useSpring, animated, config } from 'react-spring'
+import { compareObjects } from '../_utils/compareObjects'
 
 type DropdownItem = {
   label?: any, value?: any, header?: boolean | 'h5' | 'h6',
@@ -10,7 +11,7 @@ type DropdownItem = {
 }
 
 interface Props {
-  toggle?: (ref: any, toggle: any, item?: DropdownItem) => any
+  toggle?: (ref: any, toggle: any, item?: DropdownItem, expanded?: boolean) => any
   toggleLabel?: any
   toggleClass?: string
   toggleColor?: colorClasses
@@ -24,12 +25,15 @@ interface Props {
   item?: DropdownItem
   items?: DropdownItem[]
   itemsTag?: 'a' | 'button'
+  parentTag?: 'div' | 'ul' | 'li'
   itemsAfter?: DropdownItem[]
   itemClick?: (item: any) => void
   handleChange?: (e: any, name: any, value: any, item: any) => void
   children?: any
   split?: boolean
   alignRight?: boolean
+  areaLabeledBy?: string
+  hideOnClick?: boolean
 }
 
 function renderDropdownItems(items: DropdownItem[], activeItem: DropdownItem | any, activeValue: any, callbackFunction: any) {
@@ -45,7 +49,7 @@ function renderDropdownItems(items: DropdownItem[], activeItem: DropdownItem | a
     }
     if (disabled) className += ' disabled'
     if (active ||
-      (typeof item.value !== 'undefined' && activeValue === item.value) ||
+      (typeof item.value !== 'undefined' && compareObjects(activeValue, item.value)) ||
       (activeItem && activeItem.label === item.label)
     ) className += ' active'
 
@@ -63,9 +67,9 @@ function renderDropdownItems(items: DropdownItem[], activeItem: DropdownItem | a
   })
 }
 
-export const Dropdown = memo((props: Props) => {
-  const { show, item, name, itemClick, handleChange, alignRight, className, addClass,
-    toggle, toggleColor, toggleSize, split, items, children, itemsAfter, value } = props
+const DropdownComponent = (props: Props) => {
+  const { show = false, item, name, itemClick, handleChange, alignRight, className, addClass,
+    toggle, toggleColor, toggleSize, split, items, children, itemsAfter, value, parentTag: ParentTag = 'div', areaLabeledBy, hideOnClick = true } = props
 
   const dropMenuRef = useRef<HTMLDivElement>()
   const [isShown, setIsShown] = useState(show)
@@ -90,7 +94,7 @@ export const Dropdown = memo((props: Props) => {
     const dropMenu = dropMenuRef.current
     const target = e.target
     if (dropMenu && target.parentElement !== dropMenu.parentElement && !dropMenu.contains(target)) {
-      setIsShown(false)
+      if (hideOnClick) setIsShown(false)
     }
   }, [])
 
@@ -111,7 +115,7 @@ export const Dropdown = memo((props: Props) => {
 
   useEffect(() => {
     handleForceUp()
-  },[dropMenuRef])
+  }, [dropMenuRef])
 
   useEffect(() => {
     if (document) document.addEventListener('mousedown', menuClick)
@@ -140,14 +144,14 @@ export const Dropdown = memo((props: Props) => {
     setIsShown(false)
     await delay(100)
     setActiveItem(item)
-  },[])
+  }, [])
 
   const getValue = () => {
     const { toggleLabel, dynamic, value, items = [] } = props
     let item = activeItem
     if (dynamic || typeof value !== 'undefined') {
       if (!item) {
-        item = items.filter((di) => di.value === value || di.label === value)[0] || {}
+        item = items.filter((di) => compareObjects(di.value, value) || di.label === value)[0] || {}
       }
       return item.label || item.value || toggleLabel
     }
@@ -155,33 +159,36 @@ export const Dropdown = memo((props: Props) => {
     // dynamic ? (item.label || toggleLabel) : toggleLabel
   }
 
+  if (isShown) classNames.push('is-open')
+
   return (
-    <div className={className || generateClassNames(classNames)}>
+    <ParentTag className={className || generateClassNames(classNames)} aria-labelledby={areaLabeledBy}>
       {toggle ?
-        toggle(null, handleToggle, activeItem) :
+        toggle(null, handleToggle, activeItem, isShown) :
         (
-          <DropdownToggle onClick={handleToggle} color={toggleColor} size={toggleSize}>
+          <DropdownToggle color={toggleColor} size={toggleSize} onClick={handleToggle} aria-expanded={isShown}>
             {getValue()}
           </DropdownToggle>
         )
       }
 
       <animated.div
+        ref={dropMenuRef as any}
         className={generateClassNames(dropdownClassNames)}
         style={{
           pointerEvents: isShown ? 'auto' : 'none',
           display: isShown ? 'block' : 'none', ...styleProps
         }}
-        ref={dropMenuRef as any}
       >
         {items && renderDropdownItems(items, activeItem, value, onItemClick)}
         {children}
         {itemsAfter && renderDropdownItems(itemsAfter, activeItem, value, onItemClick)}
       </animated.div>
-    </div>
+    </ParentTag>
   )
-})
+}
 
+export const Dropdown = memo(DropdownComponent)
 
 
 /*
